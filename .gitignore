@@ -1,0 +1,28 @@
+# dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# build output
+dist/
+client/dist/
+
+# vercel
+.vercel
+
+# env
+.env
+.env.local
+.env.*.local
+server/.env
+
+# legacy local SQLite artifacts (no longer used — Postgres in production)
+server/*.db
+server/*.db-shm
+server/*.db-wal
+server/uploads/
+
+# misc
+.DS_Store
+*.log
+npm-debug.log*

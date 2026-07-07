@@ -1,0 +1,6 @@
+/* Restauro design system — tokens, base, components, layout */
+@import "./restauro.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
