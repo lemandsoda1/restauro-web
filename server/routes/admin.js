@@ -1,4 +1,5 @@
 import { Router } from "express";
+import bcrypt from "bcryptjs";
 import { sql } from "../db.js";
 import { requireAdmin } from "../middleware/auth.js";
 
@@ -110,6 +111,94 @@ router.patch("/clients/:id", requireAdmin, async (req, res, next) => {
       SET name = ${name ?? u.name}, phone = ${phone ?? u.phone}, address = ${address ?? u.address}
       WHERE id = ${req.params.id}`;
     res.json({ message: "Kundendaten aktualisiert." });
+  } catch (err) { next(err); }
+});
+
+// ── User / team management ───────────────────────────────────────────────────
+
+// GET /api/admin/users — all users (admins + clients) for management
+router.get("/users", requireAdmin, async (_req, res, next) => {
+  try {
+    const result = await sql`
+      SELECT u.id, u.name, u.email, u.phone, u.role, u.created_at,
+             COUNT(r.id)::int AS request_count
+      FROM users u
+      LEFT JOIN requests r ON r.client_id = u.id
+      GROUP BY u.id
+      ORDER BY (u.role = 'admin') DESC, u.created_at DESC`;
+    res.json({ users: result.rows });
+  } catch (err) { next(err); }
+});
+
+// POST /api/admin/users — create a user (client or admin)
+router.post("/users", requireAdmin, async (req, res, next) => {
+  try {
+    const { name, email, password, role, phone } = req.body;
+    if (!name || !email || !password) {
+      return res.status(400).json({ error: "Name, E-Mail und Passwort sind erforderlich." });
+    }
+    if (String(password).length < 6) {
+      return res.status(400).json({ error: "Das Passwort muss mindestens 6 Zeichen lang sein." });
+    }
+    const newRole = role === "admin" ? "admin" : "client";
+    const existing = await sql`SELECT id FROM users WHERE email = ${email}`;
+    if (existing.rows.length > 0) {
+      return res.status(409).json({ error: "Diese E-Mail ist bereits registriert." });
+    }
+    const hash = bcrypt.hashSync(password, 10);
+    const inserted = await sql`
+      INSERT INTO users (email, password_hash, name, phone, role)
+      VALUES (${email}, ${hash}, ${name}, ${phone || null}, ${newRole})
+      RETURNING id, name, email, phone, role, created_at`;
+    res.status(201).json({ user: inserted.rows[0] });
+  } catch (err) { next(err); }
+});
+
+// PATCH /api/admin/users/:id — update name / phone / role
+router.patch("/users/:id", requireAdmin, async (req, res, next) => {
+  try {
+    const { name, phone, role } = req.body;
+    const found = await sql`SELECT * FROM users WHERE id = ${req.params.id}`;
+    const u = found.rows[0];
+    if (!u) return res.status(404).json({ error: "Benutzer nicht gefunden." });
+
+    const newRole = role === "admin" || role === "client" ? role : u.role;
+    if (u.role === "admin" && newRole !== "admin") {
+      const admins = await sql`SELECT COUNT(*)::int AS c FROM users WHERE role = 'admin'`;
+      if (admins.rows[0].c <= 1) {
+        return res.status(400).json({ error: "Der letzte Admin kann nicht herabgestuft werden." });
+      }
+    }
+    await sql`
+      UPDATE users SET name = ${name ?? u.name}, phone = ${phone ?? u.phone}, role = ${newRole}
+      WHERE id = ${u.id}`;
+    res.json({ message: "Benutzer aktualisiert." });
+  } catch (err) { next(err); }
+});
+
+// DELETE /api/admin/users/:id — remove a user
+router.delete("/users/:id", requireAdmin, async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    if (id === req.user.id) {
+      return res.status(400).json({ error: "Sie können sich nicht selbst entfernen." });
+    }
+    const found = await sql`SELECT * FROM users WHERE id = ${id}`;
+    const u = found.rows[0];
+    if (!u) return res.status(404).json({ error: "Benutzer nicht gefunden." });
+
+    if (u.role === "admin") {
+      const admins = await sql`SELECT COUNT(*)::int AS c FROM users WHERE role = 'admin'`;
+      if (admins.rows[0].c <= 1) {
+        return res.status(400).json({ error: "Der letzte Admin kann nicht entfernt werden." });
+      }
+    }
+    const reqCount = await sql`SELECT COUNT(*)::int AS c FROM requests WHERE client_id = ${id}`;
+    if (reqCount.rows[0].c > 0) {
+      return res.status(400).json({ error: "Dieser Kunde hat noch Projekte und kann nicht entfernt werden." });
+    }
+    await sql`DELETE FROM users WHERE id = ${id}`;
+    res.json({ message: "Benutzer entfernt." });
   } catch (err) { next(err); }
 });
 
