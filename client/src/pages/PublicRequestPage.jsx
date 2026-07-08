@@ -67,7 +67,7 @@ export default function PublicRequestPage() {
       {/* Minimal public header */}
       <header className="rst-header rst-header--scrolled">
         <div className="rst-header__bar">
-          <Link to="/" className="rst-wordmark" style={{ fontSize: 26 }}>Westermeier<span className="dot">.</span></Link>
+          <Link to="/" className="rst-hero-wordmark">Westermeier<br />Restaurierung</Link>
           <div className="rst-header__actions">
             <Link to="/login" className="rst-header__signin">Bereits Kunde? Anmelden</Link>
           </div>

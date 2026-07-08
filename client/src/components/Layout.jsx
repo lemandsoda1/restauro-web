@@ -32,7 +32,7 @@ export default function Layout({ title, crumbs, actions, children }) {
     <div className="rst-portal">
       {/* Sidebar (desktop) */}
       <aside className="rst-sidebar">
-        <Link to="/" className="rst-sidebar__brand rst-wordmark">Westermeier<span className="dot">.</span></Link>
+        <Link to="/" className="rst-sidebar__brand rst-hero-wordmark">Westermeier<br />Restaurierung</Link>
         <nav className="rst-sidebar__nav">
           {nav.map(([to, ic, label]) => (
             <Link key={to} to={to} className={`rst-navitem${isActive(to) ? " rst-navitem--active" : ""}`}>

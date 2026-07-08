@@ -573,14 +573,14 @@ code, kbd, samp { font-family: var(--font-mono); font-size: 0.9em; }
 /* ---- Auth ---- */
 .rst-auth{ min-height:100vh; display:grid; grid-template-columns:1fr 1fr; }
 .rst-auth__aside{ background:var(--royal-900); color:var(--paper-050); padding:56px 56px; display:flex; flex-direction:column; justify-content:space-between; position:relative; overflow:hidden; }
-.rst-auth__aside-plate{ position:absolute; inset:0; opacity:.16; background:radial-gradient(120% 90% at 70% 20%, #F0E3D2, transparent 60%); }
+.rst-auth__aside-plate{ position:absolute; inset:0; opacity:.14; background:radial-gradient(120% 90% at 70% 20%, var(--ochre-400), transparent 60%); }
 .rst-auth__aside h2{ font-family:var(--font-serif); font-size:40px; font-weight:600; line-height:1.08; color:var(--paper-050); position:relative; }
 .rst-auth__aside h2 em{ font-style:italic; color:var(--ochre-400); font-family:var(--font-serif); font-weight:500; }
 .rst-auth__aside p{ color:rgba(247,242,232,.72); font-size:16px; line-height:1.6; max-width:360px; position:relative; }
 .rst-auth__main{ display:flex; align-items:center; justify-content:center; padding:40px 24px; }
 .rst-auth__card{ width:100%; max-width:400px; }
 .rst-auth__head{ margin-bottom:28px; }
-.rst-auth__head h1{ font-family:var(--font-grotesque); font-size:32px; font-weight:700; margin:16px 0 6px; color:var(--ink-900); }
+.rst-auth__head h1{ font-family:var(--font-serif); font-size:34px; font-weight:600; margin:16px 0 6px; color:var(--ink-900); }
 .rst-auth__form{ display:flex; flex-direction:column; gap:16px; }
 .rst-auth__foot{ margin-top:22px; text-align:center; font-size:13px; color:var(--text-muted); font-family:var(--font-grotesque); }
 @media (max-width:860px){ .rst-auth{ grid-template-columns:1fr; } .rst-auth__aside{ display:none; } }
@@ -588,7 +588,7 @@ code, kbd, samp { font-family: var(--font-mono); font-size: 0.9em; }
 /* ---- Portal shell ---- */
 .rst-portal{ display:flex; min-height:100vh; background:var(--bg); }
 .rst-sidebar{ width:248px; flex:none; background:var(--surface); border-right:1px solid var(--border); display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
-.rst-sidebar__brand{ padding:24px 24px 20px; font-family:var(--font-grotesque); font-weight:600; font-size:24px; color:var(--ink-900); }
+.rst-sidebar__brand{ padding:24px 24px 20px; font-family:var(--font-serif); font-weight:600; font-size:20px; line-height:1.05; color:var(--ink-900); }
 .rst-sidebar__nav{ padding:8px 14px; display:flex; flex-direction:column; gap:2px; flex:1; }
 .rst-navitem{ display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:var(--radius-sm);
   border:none; cursor:pointer; text-align:left; font-family:var(--font-grotesque); font-size:14px; font-weight:500;
@@ -606,7 +606,7 @@ code, kbd, samp { font-family: var(--font-mono); font-size: 0.9em; }
 .rst-main{ flex:1; min-width:0; display:flex; flex-direction:column; }
 .rst-topbar{ height:68px; flex:none; border-bottom:1px solid var(--border); background:rgba(250,250,247,.72);
   backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:space-between; padding:0 32px; position:sticky; top:0; z-index:20; }
-.rst-topbar__title{ font-family:var(--font-grotesque); font-size:24px; font-weight:600; color:var(--ink-900); }
+.rst-topbar__title{ font-family:var(--font-serif); font-size:26px; font-weight:600; color:var(--ink-900); }
 .rst-topbar__actions{ display:flex; align-items:center; gap:10px; }
 .rst-topbar__search{ position:relative; width:240px; }
 .rst-content{ padding:32px 32px 96px; max-width:1120px; width:100%; }
@@ -617,7 +617,7 @@ code, kbd, samp { font-family: var(--font-mono); font-size: 0.9em; }
   .rst-sidebar{ display:none; }
   .rst-topbar{ padding:0 18px; height:60px; }
   .rst-topbar__search{ display:none; }
-  .rst-topbar__brand{ font-family:var(--font-grotesque); font-weight:600; font-size:20px; color:var(--ink-900); }
+  .rst-topbar__brand{ font-family:var(--font-serif); font-weight:600; font-size:20px; color:var(--ink-900); }
   .rst-content{ padding:20px 18px 88px; }
   .rst-bottomnav{ display:flex; position:fixed; bottom:0; left:0; right:0; height:60px; z-index:40;
     border-top:1px solid var(--border); background:var(--surface); align-items:center; justify-content:space-around; padding-bottom:4px; }

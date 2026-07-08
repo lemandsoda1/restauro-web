@@ -210,7 +210,7 @@ function SiteFooter() {
     <footer className="rst-footer">
       <div className="rst-footer__grid">
         <div>
-          <div className="rst-wordmark" style={{ fontSize: 26 }}>Westermeier<span className="dot">.</span></div>
+          <div className="rst-hero-wordmark">Westermeier<br />Restaurierung</div>
           <p className="rst-footer__lede">Ein Atelier für die Restaurierung von Gemälden, Papier und Objekten.</p>
         </div>
         {cols.map(([h, links]) => (

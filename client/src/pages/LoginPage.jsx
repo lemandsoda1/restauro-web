@@ -29,8 +29,8 @@ export default function LoginPage() {
     <div className="rst-auth">
       <aside className="rst-auth__aside">
         <div className="rst-auth__aside-plate" />
-        <Link to="/" className="rst-wordmark" style={{ fontSize: 26, color: "var(--paper-050)", position: "relative" }}>
-          Westermeier<span style={{ color: "var(--ochre-400)" }}>.</span>
+        <Link to="/" className="rst-hero-wordmark" style={{ color: "var(--paper-000)", position: "relative" }}>
+          Westermeier<br />Restaurierung
         </Link>
         <div>
           <h2>Die stille Kunst,<br /><em>Werke zurückzubringen</em></h2>
