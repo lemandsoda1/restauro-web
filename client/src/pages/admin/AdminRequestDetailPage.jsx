@@ -96,7 +96,7 @@ export default function AdminRequestDetailPage() {
 
             {step === 0 && (
               <div>
-                <h3 style={{ fontFamily: "var(--font-grotesque)", fontSize: 20, fontWeight: 600, margin: "0 0 12px" }}>Sichtung</h3>
+                <h3 style={{ fontFamily: "var(--font-serif)", fontSize: 20, fontWeight: 600, margin: "0 0 12px" }}>Sichtung</h3>
                 <p className="rst-prose" style={{ margin: "0 0 18px" }}>
                   {req.description || "Der Kunde hat keine Beschreibung hinterlegt."}
                 </p>
@@ -117,7 +117,7 @@ export default function AdminRequestDetailPage() {
 
             {step === 1 && (
               <div>
-                <h3 style={{ fontFamily: "var(--font-grotesque)", fontSize: 20, fontWeight: 600, margin: "0 0 12px" }}>Zustandsbeurteilung</h3>
+                <h3 style={{ fontFamily: "var(--font-serif)", fontSize: 20, fontWeight: 600, margin: "0 0 12px" }}>Zustandsbeurteilung</h3>
                 <Textarea label="Notizen zum Zustand & geplante Maßnahmen" rows={6} value={assessment}
                   onChange={(e) => setAssessment(e.target.value)}
                   placeholder="z. B. Oberflächenschmutz und vergilbter Firnis, feine Craquelé im Himmel. Vorgeschlagen: schonende Reinigung, Firnisabnahme, Konsolidierung, Neufirnis." />
@@ -133,7 +133,7 @@ export default function AdminRequestDetailPage() {
 
             {step === 2 && (
               <div>
-                <h3 style={{ fontFamily: "var(--font-grotesque)", fontSize: 20, fontWeight: 600, margin: "0 0 16px" }}>Angebot erstellen</h3>
+                <h3 style={{ fontFamily: "var(--font-serif)", fontSize: 20, fontWeight: 600, margin: "0 0 16px" }}>Angebot erstellen</h3>
                 {offerError && <div className="rst-alert rst-alert--error rst-mb-4">{offerError}</div>}
                 <div className="rst-form-stack">
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>

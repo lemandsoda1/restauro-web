@@ -100,7 +100,7 @@ export default function RequestDetailPage() {
           {tab === "overview" && (
             <div className="rst-two-col">
               <div>
-                <h3 style={{ fontFamily: "var(--font-grotesque)", fontSize: 24, fontWeight: 600, margin: "0 0 10px" }}>Beschreibung</h3>
+                <h3 style={{ fontFamily: "var(--font-serif)", fontSize: 24, fontWeight: 600, margin: "0 0 10px" }}>Beschreibung</h3>
                 <p className="rst-prose" style={{ maxWidth: "58ch" }}>
                   {req.description || "Für dieses Werk wurde keine Beschreibung hinterlegt."}
                 </p>

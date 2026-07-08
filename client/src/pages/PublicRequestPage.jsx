@@ -76,7 +76,7 @@ export default function PublicRequestPage() {
 
       <div style={{ maxWidth: 680, margin: "0 auto", padding: "48px 24px 80px" }}>
         <Eyebrow rule>Angebot anfordern</Eyebrow>
-        <h1 style={{ fontFamily: "var(--font-grotesque)", fontSize: 40, fontWeight: 700, lineHeight: 1.05, letterSpacing: "-0.02em", margin: "16px 0 8px", color: "var(--ink-900)" }}>
+        <h1 style={{ fontFamily: "var(--font-serif)", fontSize: 40, fontWeight: 600, lineHeight: 1.05, letterSpacing: "-0.02em", margin: "16px 0 8px", color: "var(--ink-900)" }}>
           Erzählen Sie uns von Ihrem Werk
         </h1>
         <p className="rst-prose" style={{ maxWidth: "52ch", margin: "0 0 28px" }}>

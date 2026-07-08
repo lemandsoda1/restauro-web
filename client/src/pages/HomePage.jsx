@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { Button, ButtonLink, Eyebrow, WorkCard, Badge, Plate, Icon } from "../ds";
 
-/* ---- Sticky header with scroll blur ---- */
+/* ---- Overlay header: transparent white over the hero, solid on scroll ---- */
 function SiteHeader() {
   const { user, isAdmin } = useAuth();
   const [scrolled, setScrolled] = useState(false);
@@ -13,23 +13,22 @@ function SiteHeader() {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  const links = ["Leistungen", "Ablauf", "Atelier", "Kontakt"];
+  const links = [["Services", "#leistungen"], ["Referenzen", "#atelier"], ["Werkstätte", "#ablauf"]];
+  const ctaVariant = scrolled ? "primary" : "hero";
   return (
-    <header className={`rst-header${scrolled ? " rst-header--scrolled" : ""}`}>
+    <header className={`rst-header rst-header--overlay ${scrolled ? "rst-header--scrolled" : "rst-header--hero"}`}>
       <div className="rst-header__bar">
-        <Link to="/" className="rst-wordmark" style={{ fontSize: 26 }}>
-          Westermeier<span className="dot">.</span>
-        </Link>
+        <Link to="/" className="rst-hero-wordmark">Westermeier<br />Restaurierung</Link>
         <nav className="rst-header__nav">
-          {links.map((l) => <a key={l} href={`#${l.toLowerCase()}`}>{l}</a>)}
+          {links.map(([l, href]) => <a key={l} href={href}>{l}</a>)}
         </nav>
         <div className="rst-header__actions">
           {user ? (
-            <ButtonLink as={Link} to={isAdmin ? "/admin" : "/dashboard"} size="sm">Zum Portal</ButtonLink>
+            <ButtonLink as={Link} to={isAdmin ? "/admin" : "/dashboard"} size="sm" variant={ctaVariant}>Zum Portal</ButtonLink>
           ) : (
             <>
               <Link to="/login" className="rst-header__signin">Anmelden</Link>
-              <ButtonLink as={Link} to="/anfrage" size="sm">Beratung anfragen</ButtonLink>
+              <ButtonLink as={Link} to="/anfrage" size="sm" variant={ctaVariant}>Angebot erhalten</ButtonLink>
             </>
           )}
           <button className="rst-header__menu rst-iconbtn rst-iconbtn--md" aria-label="Menü" onClick={() => setMenuOpen((o) => !o)}>
@@ -39,13 +38,13 @@ function SiteHeader() {
       </div>
       {menuOpen && (
         <div style={{ background: "var(--surface)", borderBottom: "1px solid var(--border)", padding: "8px 24px 16px" }}>
-          {links.map((l) => (
-            <a key={l} href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)}
+          {links.map(([l, href]) => (
+            <a key={l} href={href} onClick={() => setMenuOpen(false)}
               style={{ display: "block", padding: "10px 0", fontFamily: "var(--font-grotesque)", fontWeight: 500, color: "var(--stone-700)" }}>{l}</a>
           ))}
           <div style={{ display: "flex", gap: 12, marginTop: 8 }}>
             <ButtonLink as={Link} to="/login" variant="outline" size="sm" block>Anmelden</ButtonLink>
-            <ButtonLink as={Link} to="/anfrage" size="sm" block>Beratung anfragen</ButtonLink>
+            <ButtonLink as={Link} to="/anfrage" size="sm" block>Angebot erhalten</ButtonLink>
           </div>
         </div>
       )}
@@ -55,38 +54,36 @@ function SiteHeader() {
 
 function Hero() {
   return (
-    <section className="rst-hero">
-      <div className="rst-hero__grid">
-        <div>
-          <Eyebrow rule>Atelier für Kunstrestaurierung</Eyebrow>
-          <h1 className="rst-hero__title">
-            Die stille Kunst,<br /><em>Werke zurückzubringen</em>
+    <>
+      <section className="rst-hero-full">
+        <div className="rst-hero-full__scrim" />
+        <div className="rst-hero-full__inner">
+          <h1 className="rst-hero-full__title">
+            Kunst&shy;restaurierung und Konservierung <em>seit 1989</em>
           </h1>
-          <p className="rst-hero__lede">
-            Ein Atelier für die Restaurierung und Konservierung von Gemälden, Papierarbeiten
-            und Objekten — wissenschaftliche Sorgfalt und die geduldige Hand des Restaurators.
+          <p className="rst-hero-full__lede">
+            Ein Atelier für Gemälde, Fresken, Papierarbeiten und Objekte — wissenschaftliche
+            Sorgfalt und die geduldige Hand des Restaurators.
           </p>
-          <div className="rst-hero__cta">
-            <ButtonLink as={Link} to="/anfrage" size="lg" endIcon={<Icon name="arrow-right" size={16} />}>
+          <div className="rst-hero-full__cta">
+            <ButtonLink as={Link} to="/anfrage" size="lg" variant="accent" endIcon={<Icon name="arrow-right" size={16} />}>
               Fotos hochladen & Angebot erhalten
             </ButtonLink>
-            <ButtonLink as="a" href="#ablauf" size="lg" variant="outline">So funktioniert es</ButtonLink>
-          </div>
-          <div className="rst-hero__stats">
-            {[["1.400+", "Restaurierte Werke"], ["28 Jahre", "Erfahrung"], ["48 Std.", "Bis zum Angebot"]].map(([n, l]) => (
-              <div key={l}>
-                <div className="rst-hero__stat-n">{n}</div>
-                <div className="rst-hero__stat-l">{l}</div>
-              </div>
-            ))}
+            <ButtonLink as="a" href="#ablauf" size="lg" variant="hero">So funktioniert es</ButtonLink>
           </div>
         </div>
-        <div className="rst-hero__art">
-          <div className="rst-hero__art-main"><Plate ratio="4/5" tone={2} label="Vor der Behandlung" /></div>
-          <div className="rst-hero__art-inset"><Plate ratio="1/1" tone={0} label="Danach" /></div>
+      </section>
+      <section className="rst-statsbar">
+        <div className="rst-statsbar__inner">
+          {[["1.400+", "Restaurierte Werke"], ["35 Jahre", "Erfahrung"], ["48 Std.", "Bis zum Angebot"]].map(([n, l]) => (
+            <div key={l}>
+              <div className="rst-statsbar__n">{n}</div>
+              <div className="rst-statsbar__l">{l}</div>
+            </div>
+          ))}
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
 

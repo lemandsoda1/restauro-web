@@ -82,7 +82,7 @@ export default function NewRequestPage() {
 
           {step === 2 && (
             <div>
-              <h3 style={{ fontFamily: "var(--font-grotesque)", fontSize: 20, fontWeight: 600, margin: "0 0 16px" }}>Zusammenfassung</h3>
+              <h3 style={{ fontFamily: "var(--font-serif)", fontSize: 20, fontWeight: 600, margin: "0 0 16px" }}>Zusammenfassung</h3>
               <div className="rst-review__row"><span className="rst-review__k">Titel</span><span className="rst-review__v">{title || "—"}</span></div>
               <div className="rst-review__row"><span className="rst-review__k">Objektart</span><span className="rst-review__v">{artTypeLabel(artType) || "—"}</span></div>
               <div className="rst-review__row"><span className="rst-review__k">Beschreibung</span><span className="rst-review__v" style={{ maxWidth: "60%" }}>{description || "—"}</span></div>
