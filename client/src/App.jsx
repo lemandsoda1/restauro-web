@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import PublicRequestPage from "./pages/PublicRequestPage";
+import ImpressumPage from "./pages/ImpressumPage";
 import DashboardPage from "./pages/client/DashboardPage";
 import NewRequestPage from "./pages/client/NewRequestPage";
 import RequestDetailPage from "./pages/client/RequestDetailPage";
@@ -28,6 +29,7 @@ export default function App() {
     <Routes>
       {/* Public */}
       <Route path="/" element={<HomePage />} />
+      <Route path="/impressum" element={<ImpressumPage />} />
       <Route
         path="/login"
         element={user ? <Navigate to={user.role === "admin" ? "/admin" : "/dashboard"} /> : <LoginPage />}

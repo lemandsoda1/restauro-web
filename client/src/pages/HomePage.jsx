@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { Button, ButtonLink, Eyebrow, WorkCard, Badge, Plate, Icon } from "../ds";
+import { useSiteContent } from "../lib/content";
 
 /* ---- Overlay header: transparent white over the hero, solid on scroll ---- */
 function SiteHeader() {
@@ -52,19 +53,21 @@ function SiteHeader() {
   );
 }
 
-function Hero() {
+/** Render "… seit 1989" with an italic tail when present. */
+function HeroTitle({ title }) {
+  const idx = title.indexOf(" seit ");
+  if (idx === -1) return <>{title}</>;
+  return <>{title.slice(0, idx + 1)}<em>{title.slice(idx + 1)}</em></>;
+}
+
+function Hero({ content }) {
   return (
     <>
       <section className="rst-hero-full">
         <div className="rst-hero-full__scrim" />
         <div className="rst-hero-full__inner">
-          <h1 className="rst-hero-full__title">
-            Kunst&shy;restaurierung und Konservierung <em>seit 1989</em>
-          </h1>
-          <p className="rst-hero-full__lede">
-            Ein Atelier für Gemälde, Fresken, Papierarbeiten und Objekte — wissenschaftliche
-            Sorgfalt und die geduldige Hand des Restaurators.
-          </p>
+          <h1 className="rst-hero-full__title"><HeroTitle title={content.hero.title} /></h1>
+          <p className="rst-hero-full__lede">{content.hero.lede}</p>
           <div className="rst-hero-full__cta">
             <ButtonLink as={Link} to="/anfrage" size="lg" variant="accent" endIcon={<Icon name="arrow-right" size={16} />}>
               Fotos hochladen & Angebot erhalten
@@ -75,10 +78,10 @@ function Hero() {
       </section>
       <section className="rst-statsbar">
         <div className="rst-statsbar__inner">
-          {[["1.400+", "Restaurierte Werke"], ["35 Jahre", "Erfahrung"], ["48 Std.", "Bis zum Angebot"]].map(([n, l]) => (
-            <div key={l}>
-              <div className="rst-statsbar__n">{n}</div>
-              <div className="rst-statsbar__l">{l}</div>
+          {content.stats.map((s, i) => (
+            <div key={i}>
+              <div className="rst-statsbar__n">{s.n}</div>
+              <div className="rst-statsbar__l">{s.l}</div>
             </div>
           ))}
         </div>
@@ -87,13 +90,7 @@ function Hero() {
   );
 }
 
-function Services() {
-  const items = [
-    ["scan-line", "Begutachtung & Bildgebung", "Technische Untersuchung — UV-, Infrarot- und Streiflicht — zur Kartierung des Zustands und als Grundlage jeder Behandlung."],
-    ["brush", "Reinigung & Restaurierung", "Oberflächenreinigung, strukturelle Reparatur, Retusche und Neufirnis durch Fachrestauratoren."],
-    ["frame", "Rahmung & Montierung", "Konservatorische Rahmung, Verglasung und archivfeste Montierungen, individuell auf jedes Werk abgestimmt."],
-    ["shield-check", "Präventive Konservierung", "Klimauntersuchungen, Pflegekonzepte für Sammlungen und Zustandskontrolle über die Zeit."],
-  ];
+function Services({ content }) {
   return (
     <section id="leistungen" className="rst-section--surface">
       <div className="rst-section">
@@ -104,11 +101,11 @@ function Services() {
           </div>
         </div>
         <div className="rst-services">
-          {items.map(([ic, t, d]) => (
-            <div key={t} className="rst-service">
-              <div className="rst-service__icon"><Icon name={ic} size={22} /></div>
-              <h3>{t}</h3>
-              <p>{d}</p>
+          {content.services.map((s, i) => (
+            <div key={i} className="rst-service">
+              <div className="rst-service__icon"><Icon name={s.icon || "sparkles"} size={22} /></div>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
             </div>
           ))}
         </div>
@@ -117,12 +114,7 @@ function Services() {
   );
 }
 
-function HowItWorks() {
-  const steps = [
-    ["01", "Fotos hochladen", "Fotografieren Sie Ihr Werk aus mehreren Winkeln — Schäden, Details und Gesamtzustand.", "JPG, PNG oder WebP · bis zu 10 Bilder"],
-    ["02", "Angebot erhalten", "Unsere Restauratoren beurteilen den Zustand und erstellen ein detailliertes, unverbindliches Angebot.", "Innerhalb von 48 Stunden"],
-    ["03", "Fortschritt verfolgen", "Geben Sie das Angebot frei und verfolgen Sie den Weg Ihres Werks bis zur Fertigstellung im Portal.", "Transparenter Status in Echtzeit"],
-  ];
+function HowItWorks({ content }) {
   return (
     <section id="ablauf" className="rst-section">
       <div style={{ textAlign: "center", marginBottom: 48 }}>
@@ -130,12 +122,12 @@ function HowItWorks() {
         <h2 className="rst-sec-title" style={{ marginLeft: "auto", marginRight: "auto" }}>So funktioniert es</h2>
       </div>
       <div className="rst-services">
-        {steps.map(([n, t, d, meta]) => (
-          <div key={n} className="rst-service" style={{ gridColumn: "span 1" }}>
-            <div className="rst-service__icon" style={{ fontFamily: "var(--font-mono)", fontSize: 15, fontWeight: 600 }}>{n}</div>
-            <h3>{t}</h3>
-            <p>{d}</p>
-            <span className="r-mono" style={{ fontSize: 11, letterSpacing: ".06em", color: "var(--text-muted)" }}>{meta}</span>
+        {content.steps.map((s, i) => (
+          <div key={i} className="rst-service" style={{ gridColumn: "span 1" }}>
+            <div className="rst-service__icon" style={{ fontFamily: "var(--font-mono)", fontSize: 15, fontWeight: 600 }}>{s.n}</div>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+            {s.meta ? <span className="r-mono" style={{ fontSize: 11, letterSpacing: ".06em", color: "var(--text-muted)" }}>{s.meta}</span> : null}
           </div>
         ))}
       </div>
@@ -146,13 +138,15 @@ function HowItWorks() {
   );
 }
 
-function Featured() {
-  const works = [
-    { refId: "RST-2026-0148", title: "Marine bei Dämmerung", artist: "Umkreis C.-J. Vernet", meta: "Öl auf Leinwand · um 1774", tone: 1, status: <Badge tone="success" dot>In Bearbeitung</Badge> },
-    { refId: "RST-2026-0132", title: "Handstudie", artist: "zugeschr. G. Reni", meta: "Rötel auf Papier", tone: 0, status: <Badge tone="warning" dot>In Prüfung</Badge> },
-    { refId: "RST-2026-0119", title: "Vergoldeter Konsolentisch", artist: "Louis-XV-Zeit", meta: "Geschnitztes Goldholz", tone: 2, status: <Badge tone="brand">Abgeschlossen</Badge> },
-    { refId: "RST-2026-0104", title: "Bildnis einer Dame", artist: "Niederländische Schule", meta: "Öl auf Holz · um 1620", tone: 3, status: <Badge tone="brand">Abgeschlossen</Badge> },
-  ];
+function workBadge(label) {
+  if (!label) return null;
+  const l = label.toLowerCase();
+  if (l.includes("bearbeit")) return <Badge tone="success" dot>{label}</Badge>;
+  if (l.includes("prüf") || l.includes("pruef")) return <Badge tone="warning" dot>{label}</Badge>;
+  return <Badge tone="brand">{label}</Badge>;
+}
+
+function Featured({ works }) {
   return (
     <section id="atelier" className="rst-section">
       <div style={{ textAlign: "center", marginBottom: 44 }}>
@@ -160,21 +154,22 @@ function Featured() {
         <h2 className="rst-sec-title" style={{ marginLeft: "auto", marginRight: "auto" }}>Aktuelle Behandlungen</h2>
       </div>
       <div className="rst-works-grid">
-        {works.map((w) => (
-          <WorkCard key={w.refId} refId={w.refId} title={w.title} artist={w.artist} meta={w.meta} status={w.status}
-            image={<Plate ratio="4/5" tone={w.tone} />} />
+        {works.map((w, i) => (
+          <WorkCard
+            key={w.id ?? i}
+            title={w.title}
+            artist={w.artist}
+            meta={w.meta}
+            status={workBadge(w.status_label)}
+            image={w.image_url ? w.image_url : <Plate ratio="4/5" tone={w.tone ?? i % 4} />}
+          />
         ))}
       </div>
     </section>
   );
 }
 
-function ClosingCTA() {
-  const faqs = [
-    { q: "Wie lange dauert eine Behandlung?", a: "Die meisten Behandlungen dauern je nach Umfang und Zustand 4–12 Wochen." },
-    { q: "Holen Sie das Werk ab?", a: "Ja — versicherte Abholung und Rücklieferung sind innerhalb der Region inbegriffen." },
-    { q: "Erhalte ich eine Dokumentation?", a: "Jedes Projekt schließt mit einem vollständigen fotografischen Zustands- und Behandlungsbericht ab." },
-  ];
+function ClosingCTA({ content }) {
   const [open, setOpen] = useState(0);
   return (
     <section id="kontakt" className="rst-cta">
@@ -186,7 +181,7 @@ function ClosingCTA() {
           <ButtonLink as={Link} to="/anfrage" size="lg" endIcon={<Icon name="arrow-right" size={16} />}>Beratung anfragen</ButtonLink>
         </div>
         <div className="rst-faq">
-          {faqs.map((it, i) => (
+          {content.faq.map((it, i) => (
             <div key={i} className="rst-faq__item">
               <button className="rst-faq__q" onClick={() => setOpen(open === i ? -1 : i)}>
                 {it.q}<Icon name={open === i ? "minus" : "plus"} size={18} />
@@ -200,12 +195,8 @@ function ClosingCTA() {
   );
 }
 
-function SiteFooter() {
-  const cols = [
-    ["Atelier", ["Leistungen", "Das Team", "Journal", "Karriere"]],
-    ["Sammler", ["Beratung anfragen", "Kundenportal", "Versicherung", "Versand"]],
-    ["Kontakt", ["hallo@westermeier-restaurierung.de", "+49 89 000 0000", "Kunststraße 18, München"]],
-  ];
+function SiteFooter({ content }) {
+  const c = content.contact;
   return (
     <footer className="rst-footer">
       <div className="rst-footer__grid">
@@ -213,33 +204,49 @@ function SiteFooter() {
           <div className="rst-hero-wordmark">Westermeier<br />Restaurierung</div>
           <p className="rst-footer__lede">Ein Atelier für die Restaurierung von Gemälden, Papier und Objekten.</p>
         </div>
-        {cols.map(([h, links]) => (
-          <div key={h}>
-            <div className="rst-footer__col-h">{h}</div>
-            <div className="rst-footer__links">
-              {links.map((l) => <a key={l} href="#">{l}</a>)}
-            </div>
+        <div>
+          <div className="rst-footer__col-h">Atelier</div>
+          <div className="rst-footer__links">
+            {["Leistungen", "Das Team", "Journal", "Karriere"].map((l) => <a key={l} href="#">{l}</a>)}
           </div>
-        ))}
+        </div>
+        <div>
+          <div className="rst-footer__col-h">Sammler</div>
+          <div className="rst-footer__links">
+            <Link to="/anfrage">Beratung anfragen</Link>
+            <Link to="/login">Kundenportal</Link>
+            <a href="#">Versicherung</a>
+            <a href="#">Versand</a>
+          </div>
+        </div>
+        <div>
+          <div className="rst-footer__col-h">Kontakt</div>
+          <div className="rst-footer__links">
+            {c.email ? <a href={`mailto:${c.email}`}>{c.email}</a> : null}
+            {c.phone ? <a href={`tel:${c.phone.replace(/\s+/g, "")}`}>{c.phone}</a> : null}
+            {c.address ? <span style={{ color: "var(--stone-700)", fontSize: 14 }}>{c.address}</span> : null}
+          </div>
+        </div>
       </div>
       <div className="rst-footer__bar">
-        <span>© 2026 Westermeier Restaurierung</span>
-        <span>Datenschutz · Impressum</span>
+        <span>© {new Date().getFullYear()} Westermeier Restaurierung</span>
+        <span><Link to="/impressum">Datenschutz · Impressum</Link></span>
       </div>
     </footer>
   );
 }
 
 export default function HomePage() {
+  const { content, works } = useSiteContent();
   return (
     <div className="rst-site">
       <SiteHeader />
-      <Hero />
-      <Services />
-      <HowItWorks />
-      <Featured />
-      <ClosingCTA />
-      <SiteFooter />
+      <Hero content={content} />
+      <Services content={content} />
+      <HowItWorks content={content} />
+      <Featured works={works} />
+      <ClosingCTA content={content} />
+      <SiteFooter content={content} />
     </div>
   );
 }

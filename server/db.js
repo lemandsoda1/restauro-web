@@ -64,6 +64,26 @@ async function migrate() {
       responded_at   TIMESTAMPTZ
     );`;
 
+  // ── CMS: editable site content (single JSON doc) + reference gallery ──────
+  await sql`
+    CREATE TABLE IF NOT EXISTS content (
+      key        TEXT PRIMARY KEY,
+      value      JSONB NOT NULL,
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );`;
+  await sql`
+    CREATE TABLE IF NOT EXISTS works (
+      id           SERIAL PRIMARY KEY,
+      title        TEXT NOT NULL,
+      artist       TEXT,
+      meta         TEXT,
+      status_label TEXT,
+      image_url    TEXT,
+      sort_order   INTEGER NOT NULL DEFAULT 0,
+      published    BOOLEAN NOT NULL DEFAULT TRUE,
+      created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );`;
+
   // Migrations for pre-existing databases (safe if columns already present).
   await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS address TEXT;`;
   await sql`ALTER TABLE requests ADD COLUMN IF NOT EXISTS shipping_status TEXT NOT NULL DEFAULT 'pending';`;
