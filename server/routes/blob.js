@@ -9,10 +9,18 @@ const router = Router();
  * (e.g. "Blob_images") names it Blob_images_READ_WRITE_TOKEN. Blob RW tokens
  * always start with "vercel_blob_rw_", so find it regardless of the var name.
  */
+function clean(v) {
+  return typeof v === "string" ? v.trim().replace(/^["']|["']$/g, "").trim() : "";
+}
 function resolveBlobToken() {
-  if (process.env.BLOB_READ_WRITE_TOKEN) return process.env.BLOB_READ_WRITE_TOKEN;
+  // Prefer the standard var, but validate/sanitise: pasted values sometimes
+  // carry surrounding quotes/whitespace. Fall back to any env value that is a
+  // real Blob RW token (regardless of the var name / custom prefix).
+  const preferred = clean(process.env.BLOB_READ_WRITE_TOKEN);
+  if (preferred.startsWith("vercel_blob_rw_")) return preferred;
   for (const value of Object.values(process.env)) {
-    if (typeof value === "string" && value.startsWith("vercel_blob_rw_")) return value;
+    const t = clean(value);
+    if (t.startsWith("vercel_blob_rw_")) return t;
   }
   return undefined;
 }
