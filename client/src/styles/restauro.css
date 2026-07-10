@@ -776,11 +776,23 @@ code, kbd, samp { font-family: var(--font-mono); font-size: 0.9em; }
   margin:22px 0 32px; text-shadow:0 1px 16px rgba(0,0,0,.55); }
 .rst-hero-full__cta{ display:flex; gap:14px; flex-wrap:wrap; }
 
-/* slim stats bar under the hero */
-.rst-statsbar{ background:var(--surface); border-bottom:1px solid var(--border); }
-.rst-statsbar__inner{ max-width:1200px; margin:0 auto; padding:26px 40px; display:flex; gap:56px; flex-wrap:wrap; }
-.rst-statsbar__n{ font-family:var(--font-serif); font-size:30px; font-weight:600; color:var(--ink-900); line-height:1; }
-.rst-statsbar__l{ font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-muted); margin-top:6px; }
+/* auto-scrolling logo marquee under the hero */
+.rst-logos{ background:var(--surface); border-bottom:1px solid var(--border); padding:34px 0; }
+.rst-logos__eyebrow{ text-align:center; font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-muted); margin:0 0 24px; }
+.rst-logos__viewport{ overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  mask-image:linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+.rst-logos__track{ display:flex; width:max-content; align-items:center; animation:rst-logos-scroll 45s linear infinite; }
+.rst-logos__viewport:hover .rst-logos__track{ animation-play-state:paused; }
+.rst-logo{ flex:0 0 auto; display:flex; align-items:center; justify-content:center; height:72px; max-width:200px; margin:0 40px; }
+.rst-logo img{ max-height:72px; max-width:200px; width:auto; object-fit:contain; opacity:.5; filter:grayscale(1); transition:opacity .2s ease, filter .2s ease; }
+.rst-logo:hover img{ opacity:1; filter:grayscale(0); }
+.rst-logo__text{ font-family:var(--font-serif); font-size:22px; font-weight:600; color:var(--stone-500); white-space:nowrap; letter-spacing:.01em; transition:color .2s ease; }
+.rst-logo:hover .rst-logo__text{ color:var(--ink-900); }
+@keyframes rst-logos-scroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+@media (prefers-reduced-motion: reduce){
+  .rst-logos__track{ animation:none; flex-wrap:wrap; justify-content:center; width:auto; }
+}
 
 /* keep anchored sections clear of the fixed header */
 #leistungen, #ablauf, #atelier, #kontakt{ scroll-margin-top:90px; }
@@ -789,5 +801,7 @@ code, kbd, samp { font-family: var(--font-mono); font-size: 0.9em; }
   .rst-hero-full__inner{ padding:104px 24px 56px; }
   .rst-hero-full__title{ font-size:38px; }
   .rst-hero-wordmark{ font-size:19px; }
-  .rst-statsbar__inner{ gap:32px; padding:20px 24px; }
+  .rst-logo{ height:54px; max-width:150px; margin:0 26px; }
+  .rst-logo img{ max-height:54px; max-width:150px; }
+  .rst-logo__text{ font-size:18px; }
 }

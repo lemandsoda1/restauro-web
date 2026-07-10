@@ -14,10 +14,15 @@ const HERO = {
   lede: "Ein Atelier für Gemälde, Fresken, Papierarbeiten und Objekte — wissenschaftliche Sorgfalt und die geduldige Hand des Restaurators.",
 };
 
-const STATS = [
-  { n: "1.400+", l: "Restaurierte Werke" },
-  { n: "35 Jahre", l: "Erfahrung" },
-  { n: "48 Std.", l: "Bis zum Angebot" },
+// Logo-Carousel unter dem Hero. Jeder Eintrag ist entweder ein Bild
+// ({ name, src: "/logos/xyz.svg" }) oder — solange noch kein Bild da ist —
+// nur ein { name } (wird als Text-Wortmarke gezeigt). Bilder nach
+// client/public/logos/ legen und hier den src ergänzen.
+const LOGOS_EYEBROW = "Vertrauen von Museen, Galerien & Sammlern";
+const LOGOS = [
+  { name: "Bayerische Schlösserverwaltung", src: "/logos/bayerische-schloesserverwaltung.png" },
+  { name: "Stiftung Fürst Liechtenstein", src: "/logos/stiftung-fuerst-liechtenstein.png" },
+  { name: "Kunsthistorisches Museum Wien", src: "/logos/kunsthistorisches-museum-wien.png" },
 ];
 
 const SERVICES = [
@@ -119,17 +124,35 @@ function Hero() {
           </div>
         </div>
       </section>
-      <section className="rst-statsbar">
-        <div className="rst-statsbar__inner">
-          {STATS.map((s, i) => (
-            <div key={i}>
-              <div className="rst-statsbar__n">{s.n}</div>
-              <div className="rst-statsbar__l">{s.l}</div>
+      <LogoMarquee />
+    </>
+  );
+}
+
+/* Auto-scrolling, seamless logo carousel. The list is rendered twice so the
+   CSS marquee can loop without a visible seam; hover pauses it. */
+function LogoMarquee() {
+  if (!LOGOS.length) return null;
+  // Tile the set so one "half" is wide enough to fill the viewport, then
+  // render it twice so the -50% CSS loop is seamless regardless of count.
+  const reps = Math.max(2, Math.ceil(14 / LOGOS.length));
+  const half = Array.from({ length: reps }, () => LOGOS).flat();
+  const loop = [...half, ...half];
+  return (
+    <section className="rst-logos" aria-label="Referenzen und Partner">
+      {LOGOS_EYEBROW ? <p className="rst-logos__eyebrow">{LOGOS_EYEBROW}</p> : null}
+      <div className="rst-logos__viewport">
+        <div className="rst-logos__track">
+          {loop.map((logo, i) => (
+            <div className="rst-logo" key={i} aria-hidden={i >= LOGOS.length}>
+              {logo.src
+                ? <img src={logo.src} alt={logo.name} loading="lazy" />
+                : <span className="rst-logo__text">{logo.name}</span>}
             </div>
           ))}
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 
