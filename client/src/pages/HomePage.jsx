@@ -1,8 +1,58 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import { Button, ButtonLink, Eyebrow, WorkCard, Badge, Plate, Icon } from "../ds";
-import { useSiteContent } from "../lib/content";
+import { ButtonLink, Eyebrow, WorkCard, Badge, Plate, Icon } from "../ds";
+
+/* ============================================================================
+ * SEITENINHALTE — hier direkt im Code pflegen.
+ * Texte, Kennzahlen, Leistungen, Ablauf, FAQ, Kontakt und die Referenzen
+ * unter „Aktuelle Behandlungen" einfach unten ändern und neu deployen.
+ * ==========================================================================*/
+
+const HERO = {
+  title: "Werkstätte für Kunstrestaurierung und Konservierung",
+  lede: "Ein Atelier für Gemälde, Fresken, Papierarbeiten und Objekte — wissenschaftliche Sorgfalt und die geduldige Hand des Restaurators.",
+};
+
+const STATS = [
+  { n: "1.400+", l: "Restaurierte Werke" },
+  { n: "35 Jahre", l: "Erfahrung" },
+  { n: "48 Std.", l: "Bis zum Angebot" },
+];
+
+const SERVICES = [
+  { icon: "scan-line", title: "Begutachtung & Bildgebung", text: "Technische Untersuchung — UV-, Infrarot- und Streiflicht — zur Kartierung des Zustands und als Grundlage jeder Behandlung." },
+  { icon: "brush", title: "Reinigung & Restaurierung", text: "Oberflächenreinigung, strukturelle Reparatur, Retusche und Neufirnis durch Fachrestauratoren." },
+  { icon: "frame", title: "Rahmung & Montierung", text: "Konservatorische Rahmung, Verglasung und archivfeste Montierungen, individuell auf jedes Werk abgestimmt." },
+  { icon: "shield-check", title: "Präventive Konservierung", text: "Klimauntersuchungen, Pflegekonzepte für Sammlungen und Zustandskontrolle über die Zeit." },
+];
+
+const STEPS = [
+  { n: "01", title: "Fotos hochladen", text: "Fotografieren Sie Ihr Werk aus mehreren Winkeln — Schäden, Details und Gesamtzustand.", meta: "JPG, PNG oder WebP · bis zu 10 Bilder" },
+  { n: "02", title: "Angebot erhalten", text: "Unsere Restauratoren beurteilen den Zustand und erstellen ein detailliertes, unverbindliches Angebot.", meta: "Innerhalb von 48 Stunden" },
+  { n: "03", title: "Fortschritt verfolgen", text: "Geben Sie das Angebot frei und verfolgen Sie den Weg Ihres Werks bis zur Fertigstellung im Portal.", meta: "Transparenter Status in Echtzeit" },
+];
+
+const FAQ = [
+  { q: "Wie lange dauert eine Behandlung?", a: "Die meisten Behandlungen dauern je nach Umfang und Zustand 4–12 Wochen." },
+  { q: "Holen Sie das Werk ab?", a: "Ja — versicherte Abholung und Rücklieferung sind innerhalb der Region inbegriffen." },
+  { q: "Erhalte ich eine Dokumentation?", a: "Jedes Projekt schließt mit einem vollständigen fotografischen Zustands- und Behandlungsbericht ab." },
+];
+
+const CONTACT = {
+  email: "hallo@westermeier-restaurierung.de",
+  phone: "+49 89 000 0000",
+  address: "Kunststraße 18, München",
+};
+
+// Referenzen unter „Aktuelle Behandlungen". image ist optional — ohne Bild
+// wird eine getönte Platzhalter-Platte gezeigt (tone 0–3).
+const WORKS = [
+  { title: "Marine bei Dämmerung", artist: "Umkreis C.-J. Vernet", meta: "Öl auf Leinwand · um 1774", statusLabel: "In Bearbeitung", image: null, tone: 1 },
+  { title: "Handstudie", artist: "zugeschr. G. Reni", meta: "Rötel auf Papier", statusLabel: "In Prüfung", image: null, tone: 0 },
+  { title: "Vergoldeter Konsolentisch", artist: "Louis-XV-Zeit", meta: "Geschnitztes Goldholz", statusLabel: "Abgeschlossen", image: null, tone: 2 },
+  { title: "Bildnis einer Dame", artist: "Niederländische Schule", meta: "Öl auf Holz · um 1620", statusLabel: "Abgeschlossen", image: null, tone: 3 },
+];
 
 /* ---- Overlay header: transparent white over the hero, solid on scroll ---- */
 function SiteHeader() {
@@ -53,21 +103,14 @@ function SiteHeader() {
   );
 }
 
-/** Render "… seit 1989" with an italic tail when present. */
-function HeroTitle({ title }) {
-  const idx = title.indexOf(" seit ");
-  if (idx === -1) return <>{title}</>;
-  return <>{title.slice(0, idx + 1)}<em>{title.slice(idx + 1)}</em></>;
-}
-
-function Hero({ content }) {
+function Hero() {
   return (
     <>
       <section className="rst-hero-full">
         <div className="rst-hero-full__scrim" />
         <div className="rst-hero-full__inner">
-          <h1 className="rst-hero-full__title"><HeroTitle title={content.hero.title} /></h1>
-          <p className="rst-hero-full__lede">{content.hero.lede}</p>
+          <h1 className="rst-hero-full__title">{HERO.title}</h1>
+          <p className="rst-hero-full__lede">{HERO.lede}</p>
           <div className="rst-hero-full__cta">
             <ButtonLink as={Link} to="/anfrage" size="lg" variant="accent" endIcon={<Icon name="arrow-right" size={16} />}>
               Fotos hochladen & Angebot erhalten
@@ -78,7 +121,7 @@ function Hero({ content }) {
       </section>
       <section className="rst-statsbar">
         <div className="rst-statsbar__inner">
-          {content.stats.map((s, i) => (
+          {STATS.map((s, i) => (
             <div key={i}>
               <div className="rst-statsbar__n">{s.n}</div>
               <div className="rst-statsbar__l">{s.l}</div>
@@ -90,7 +133,7 @@ function Hero({ content }) {
   );
 }
 
-function Services({ content }) {
+function Services() {
   return (
     <section id="leistungen" className="rst-section--surface">
       <div className="rst-section">
@@ -101,7 +144,7 @@ function Services({ content }) {
           </div>
         </div>
         <div className="rst-services">
-          {content.services.map((s, i) => (
+          {SERVICES.map((s, i) => (
             <div key={i} className="rst-service">
               <div className="rst-service__icon"><Icon name={s.icon || "sparkles"} size={22} /></div>
               <h3>{s.title}</h3>
@@ -114,7 +157,7 @@ function Services({ content }) {
   );
 }
 
-function HowItWorks({ content }) {
+function HowItWorks() {
   return (
     <section id="ablauf" className="rst-section">
       <div style={{ textAlign: "center", marginBottom: 48 }}>
@@ -122,7 +165,7 @@ function HowItWorks({ content }) {
         <h2 className="rst-sec-title" style={{ marginLeft: "auto", marginRight: "auto" }}>So funktioniert es</h2>
       </div>
       <div className="rst-services">
-        {content.steps.map((s, i) => (
+        {STEPS.map((s, i) => (
           <div key={i} className="rst-service" style={{ gridColumn: "span 1" }}>
             <div className="rst-service__icon" style={{ fontFamily: "var(--font-mono)", fontSize: 15, fontWeight: 600 }}>{s.n}</div>
             <h3>{s.title}</h3>
@@ -146,7 +189,7 @@ function workBadge(label) {
   return <Badge tone="brand">{label}</Badge>;
 }
 
-function Featured({ works }) {
+function Featured() {
   return (
     <section id="atelier" className="rst-section">
       <div style={{ textAlign: "center", marginBottom: 44 }}>
@@ -154,14 +197,14 @@ function Featured({ works }) {
         <h2 className="rst-sec-title" style={{ marginLeft: "auto", marginRight: "auto" }}>Aktuelle Behandlungen</h2>
       </div>
       <div className="rst-works-grid">
-        {works.map((w, i) => (
+        {WORKS.map((w, i) => (
           <WorkCard
-            key={w.id ?? i}
+            key={i}
             title={w.title}
             artist={w.artist}
             meta={w.meta}
-            status={workBadge(w.status_label)}
-            image={w.image_url ? w.image_url : <Plate ratio="4/5" tone={w.tone ?? i % 4} />}
+            status={workBadge(w.statusLabel)}
+            image={w.image ? w.image : <Plate ratio="4/5" tone={w.tone ?? i % 4} />}
           />
         ))}
       </div>
@@ -169,7 +212,7 @@ function Featured({ works }) {
   );
 }
 
-function ClosingCTA({ content }) {
+function ClosingCTA() {
   const [open, setOpen] = useState(0);
   return (
     <section id="kontakt" className="rst-cta">
@@ -181,7 +224,7 @@ function ClosingCTA({ content }) {
           <ButtonLink as={Link} to="/anfrage" size="lg" endIcon={<Icon name="arrow-right" size={16} />}>Beratung anfragen</ButtonLink>
         </div>
         <div className="rst-faq">
-          {content.faq.map((it, i) => (
+          {FAQ.map((it, i) => (
             <div key={i} className="rst-faq__item">
               <button className="rst-faq__q" onClick={() => setOpen(open === i ? -1 : i)}>
                 {it.q}<Icon name={open === i ? "minus" : "plus"} size={18} />
@@ -195,8 +238,8 @@ function ClosingCTA({ content }) {
   );
 }
 
-function SiteFooter({ content }) {
-  const c = content.contact;
+function SiteFooter() {
+  const c = CONTACT;
   return (
     <footer className="rst-footer">
       <div className="rst-footer__grid">
@@ -237,16 +280,15 @@ function SiteFooter({ content }) {
 }
 
 export default function HomePage() {
-  const { content, works } = useSiteContent();
   return (
     <div className="rst-site">
       <SiteHeader />
-      <Hero content={content} />
-      <Services content={content} />
-      <HowItWorks content={content} />
-      <Featured works={works} />
-      <ClosingCTA content={content} />
-      <SiteFooter content={content} />
+      <Hero />
+      <Services />
+      <HowItWorks />
+      <Featured />
+      <ClosingCTA />
+      <SiteFooter />
     </div>
   );
 }

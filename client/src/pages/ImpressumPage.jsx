@@ -1,9 +1,14 @@
 import { Link } from "react-router-dom";
-import { useSiteContent } from "../lib/content";
+
+/* Impressum / Datenschutz — Inhalte hier direkt im Code pflegen. */
+const CONTACT = {
+  email: "hallo@westermeier-restaurierung.de",
+  phone: "+49 89 000 0000",
+  address: "Kunststraße 18, München",
+};
 
 export default function ImpressumPage() {
-  const { content } = useSiteContent();
-  const c = content.contact || {};
+  const c = CONTACT;
   return (
     <div className="rst-site">
       <header className="rst-header rst-header--scrolled">
@@ -20,21 +25,17 @@ export default function ImpressumPage() {
           Impressum
         </h1>
 
-        {content.imprint ? (
-          <p className="rst-prose" style={{ whiteSpace: "pre-wrap", fontSize: 16 }}>{content.imprint}</p>
-        ) : (
-          <div className="rst-prose" style={{ fontSize: 16 }}>
-            <p>Westermeier Restaurierung — Atelier für Kunstrestaurierung und Konservierung.</p>
-            <p style={{ marginTop: 16 }}>
-              {c.address ? <>{c.address}<br /></> : null}
-              {c.phone ? <>Telefon: {c.phone}<br /></> : null}
-              {c.email ? <>E‑Mail: {c.email}</> : null}
-            </p>
-            <p style={{ marginTop: 16, color: "var(--text-muted)", fontSize: 14 }}>
-              Die vollständigen Impressums‑ und Datenschutzangaben werden im Atelier‑Verwaltungsbereich gepflegt.
-            </p>
-          </div>
-        )}
+        <div className="rst-prose" style={{ fontSize: 16 }}>
+          <p>Westermeier Restaurierung — Atelier für Kunstrestaurierung und Konservierung.</p>
+          <p style={{ marginTop: 16 }}>
+            {c.address ? <>{c.address}<br /></> : null}
+            {c.phone ? <>Telefon: {c.phone}<br /></> : null}
+            {c.email ? <>E‑Mail: {c.email}</> : null}
+          </p>
+          <p style={{ marginTop: 16, color: "var(--text-muted)", fontSize: 14 }}>
+            Verantwortlich für den Inhalt gemäß § 5 TMG: Westermeier Restaurierung.
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -10,12 +10,11 @@ import requestRoutes from "./routes/requests.js";
 import adminRoutes from "./routes/admin.js";
 import offerRoutes from "./routes/offers.js";
 import blobRoutes from "./routes/blob.js";
-import contentRoutes from "./routes/content.js";
 
 const app = express();
 
 app.use(cors());
-app.use(express.json({ limit: "8mb" })); // room for base64 image uploads from the Mac app
+app.use(express.json({ limit: "1mb" }));
 
 // Ensure the schema exists before serving any API request (idempotent, cached).
 app.use(async (_req, _res, next) => {
@@ -27,7 +26,6 @@ app.use("/api/auth", authRoutes);
 app.use("/api/requests", requestRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/blob", blobRoutes);
-app.use("/api", contentRoutes);
 app.use("/api", offerRoutes);
 
 // JSON error handler so failures never leak an HTML stack trace to the SPA.
