@@ -190,10 +190,30 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: var(--tracking-tight);
   color: var(--text);
   margin: 0 0 0.4em;
+  /* Breaking system: balance the lines (no orphan words like a lone "und"),
+     hyphenate long German compounds only as a fallback, never overflow. */
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  -webkit-hyphens: auto; hyphens: auto;
 }
 
 p { font-family: var(--body-family); font-size: var(--body-size); font-weight: var(--body-weight);
-    line-height: var(--body-leading); margin: 0 0 1em; }
+    line-height: var(--body-leading); margin: 0 0 1em;
+    text-wrap: pretty; overflow-wrap: break-word; }
+
+/* ── Trennungen & Abbrüche — ein konsistentes System (setzt <html lang="de">) ──
+   Überschriften: `text-wrap: balance` verteilt die Zeilen gleichmäßig und
+   verhindert Waisen; `hyphens: auto` trennt lange Komposita nur, wenn ein Wort
+   sonst überliefe. Fließtext: `text-wrap: pretty` gegen kurze Schlusszeilen.
+   Lesetexte unten trennen zusätzlich automatisch. Utilities: .u-* für Sonderfälle. */
+.rst-hero-full__lede, .rst-sechead__lead, .rst-prose,
+.rst-service p, .rst-faq__a, .rst-cta p {
+  -webkit-hyphens: auto; hyphens: auto;
+}
+.u-balance { text-wrap: balance; }
+.u-pretty  { text-wrap: pretty; }
+.u-hyphens { -webkit-hyphens: auto; hyphens: auto; overflow-wrap: break-word; }
+.u-nowrap  { white-space: nowrap; }
 
 a { color: var(--text-link); text-decoration: none; transition: color var(--duration-fast) var(--ease-standard); }
 a:hover { color: var(--text-link-hover); text-decoration: underline; text-underline-offset: 3px; }
@@ -773,7 +793,7 @@ code, kbd, samp { font-family: var(--font-mono); font-size: 0.9em; }
 .rst-hero-full__inner{ position:relative; z-index:2; flex:1; display:flex; flex-direction:column;
   justify-content:center; max-width:1200px; margin:0 auto; width:100%; padding:128px 40px 88px; box-sizing:border-box; }
 .rst-hero-full__title{ font-family:var(--font-serif); font-weight:500; color:#fff; margin:0;
-  font-size:66px; line-height:1.08; letter-spacing:-0.01em; max-width:15ch;
+  font-size:66px; line-height:1.08; letter-spacing:-0.01em; max-width:20ch;
   text-shadow:0 2px 28px rgba(0,0,0,.5); }
 .rst-hero-full__title em{ font-style:italic; }
 .rst-hero-full__lede{ color:rgba(255,255,255,.94); font-size:18px; line-height:1.5; max-width:42ch;
