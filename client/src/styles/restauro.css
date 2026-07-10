@@ -518,8 +518,12 @@ code, kbd, samp { font-family: var(--font-mono); font-size: 0.9em; }
 .rst-section{ max-width:1200px; margin:0 auto; padding:88px 40px; }
 .rst-section--surface{ background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
 .rst-section--surface > .rst-section{ padding-top:88px; padding-bottom:88px; }
-.rst-sec-head{ display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:48px; gap:20px; }
-.rst-sec-title{ font-family:var(--font-serif); font-size:44px; font-weight:600; margin:14px 0 0; color:var(--ink-900); }
+/* unified, centered section header — gilt hairline · eyebrow · serif title */
+.rst-sechead{ max-width:640px; margin:0 auto 56px; display:flex; flex-direction:column; align-items:center; text-align:center; }
+.rst-sechead__rule{ width:38px; height:2px; border-radius:2px; background:var(--accent); }
+.rst-sechead__eyebrow{ font-family:var(--font-mono); font-size:12px; font-weight:500; letter-spacing:.24em; text-transform:uppercase; color:var(--royal-600); margin-top:20px; }
+.rst-sechead__title{ font-family:var(--font-serif); font-size:44px; font-weight:600; line-height:1.08; color:var(--ink-900); margin:14px 0 0; }
+.rst-sechead__lead{ font-family:var(--font-serif); font-size:19px; line-height:1.55; color:var(--text-muted); margin:16px 0 0; }
 
 .rst-services{ display:grid; grid-template-columns:repeat(4,1fr); gap:28px; }
 .rst-service__icon{ width:48px; height:48px; border-radius:var(--radius-md); background:var(--royal-050); color:var(--royal-600); display:flex; align-items:center; justify-content:center; margin-bottom:18px; }
@@ -555,7 +559,8 @@ code, kbd, samp { font-family: var(--font-mono); font-size: 0.9em; }
   .rst-hero__title{ font-size:44px; }
   .rst-hero__art-inset{ width:130px; left:0; bottom:-20px; }
   .rst-section{ padding-top:56px; padding-bottom:56px; }
-  .rst-sec-title{ font-size:32px; }
+  .rst-sechead{ margin-bottom:40px; }
+  .rst-sechead__title{ font-size:32px; }
   .rst-services{ grid-template-columns:1fr 1fr; gap:20px; }
   .rst-works-grid{ grid-template-columns:1fr 1fr; gap:20px; }
   .rst-cta__inner{ grid-template-columns:1fr; gap:36px; padding-top:56px; padding-bottom:56px; }
@@ -567,7 +572,6 @@ code, kbd, samp { font-family: var(--font-mono); font-size: 0.9em; }
   .rst-works-grid{ grid-template-columns:1fr; }
   .rst-footer__grid{ grid-template-columns:1fr; }
   .rst-footer__bar{ flex-direction:column; gap:8px; }
-  .rst-sec-head{ flex-direction:column; align-items:flex-start; }
 }
 
 /* ---- Auth ---- */

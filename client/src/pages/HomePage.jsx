@@ -160,16 +160,23 @@ function LogoMarquee() {
   );
 }
 
+/* Unified centered section header: gilt hairline · eyebrow · serif title. */
+function SectionHead({ eyebrow, title, lead }) {
+  return (
+    <div className="rst-sechead">
+      <span className="rst-sechead__rule" aria-hidden="true" />
+      <span className="rst-sechead__eyebrow">{eyebrow}</span>
+      <h2 className="rst-sechead__title">{title}</h2>
+      {lead ? <p className="rst-sechead__lead">{lead}</p> : null}
+    </div>
+  );
+}
+
 function Services() {
   return (
     <section id="leistungen" className="rst-section--surface">
       <div className="rst-section">
-        <div className="rst-sec-head">
-          <div>
-            <Eyebrow>Was wir tun</Eyebrow>
-            <h2 className="rst-sec-title">Leistungen</h2>
-          </div>
-        </div>
+        <SectionHead eyebrow="Was wir tun" title="Leistungen" />
         <div className="rst-services">
           {SERVICES.map((s, i) => (
             <div key={i} className="rst-service">
@@ -187,10 +194,7 @@ function Services() {
 function HowItWorks() {
   return (
     <section id="ablauf" className="rst-section">
-      <div style={{ textAlign: "center", marginBottom: 48 }}>
-        <Eyebrow>In drei Schritten</Eyebrow>
-        <h2 className="rst-sec-title" style={{ marginLeft: "auto", marginRight: "auto" }}>So funktioniert es</h2>
-      </div>
+      <SectionHead eyebrow="In drei Schritten" title="So funktioniert es" />
       <div className="rst-services">
         {STEPS.map((s, i) => (
           <div key={i} className="rst-service" style={{ gridColumn: "span 1" }}>
@@ -219,10 +223,7 @@ function workBadge(label) {
 function Featured() {
   return (
     <section id="atelier" className="rst-section">
-      <div style={{ textAlign: "center", marginBottom: 44 }}>
-        <Eyebrow>Aus dem Atelier</Eyebrow>
-        <h2 className="rst-sec-title" style={{ marginLeft: "auto", marginRight: "auto" }}>Aktuelle Behandlungen</h2>
-      </div>
+      <SectionHead eyebrow="Aus dem Atelier" title="Aktuelle Behandlungen" />
       <div className="rst-works-grid">
         {WORKS.map((w, i) => (
           <WorkCard
