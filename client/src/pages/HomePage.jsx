@@ -18,7 +18,7 @@ const HERO = {
 // ({ name, src: "/logos/xyz.svg" }) oder — solange noch kein Bild da ist —
 // nur ein { name } (wird als Text-Wortmarke gezeigt). Bilder nach
 // client/public/logos/ legen und hier den src ergänzen.
-const LOGOS_EYEBROW = "Vertrauen von Museen, Galerien & Sammlern";
+const LOGOS_EYEBROW = ""; // Text über dem Carousel; leer lassen = kein Text
 const LOGOS = [
   { name: "Bayerische Schlösserverwaltung", src: "/logos/bayerische-schloesserverwaltung.png" },
   { name: "Erzbistum Berlin", src: "/logos/erzbistum-berlin.png" },
