@@ -11,7 +11,7 @@ import { ButtonLink, Eyebrow, WorkCard, Badge, Plate, Icon } from "../ds";
 
 const HERO = {
   title: "Werkstätte für Kunstrestaurierung und Konservierung",
-  lede: "Ein Atelier für Gemälde, Fresken, Papierarbeiten und Objekte — wissenschaftliche Sorgfalt und die geduldige Hand des Restaurators.",
+  lede: "", // Untertitel unter dem Hero-Titel; leer lassen = kein Text
 };
 
 // Logo-Carousel unter dem Hero. Jeder Eintrag ist entweder ein Bild
@@ -119,7 +119,7 @@ function Hero() {
         <div className="rst-hero-full__scrim" />
         <div className="rst-hero-full__inner">
           <h1 className="rst-hero-full__title">{HERO.title}</h1>
-          <p className="rst-hero-full__lede">{HERO.lede}</p>
+          {HERO.lede ? <p className="rst-hero-full__lede">{HERO.lede}</p> : null}
           <div className="rst-hero-full__cta">
             <ButtonLink as={Link} to="/anfrage" size="lg" variant="accent" endIcon={<Icon name="arrow-right" size={16} />}>
               Fotos hochladen & Angebot erhalten
