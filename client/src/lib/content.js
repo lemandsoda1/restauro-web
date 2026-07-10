@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 /** Default homepage content — used as fallback until edited in the CMS. */
 export const DEFAULT_CONTENT = {
   hero: {
-    title: "Kunstrestaurierung und Konservierung seit 1989",
+    title: "Werkstätte für Kunstrestaurierung und Konservierung",
     lede: "Ein Atelier für Gemälde, Fresken, Papierarbeiten und Objekte — wissenschaftliche Sorgfalt und die geduldige Hand des Restaurators.",
   },
   stats: [
