@@ -571,9 +571,8 @@ code, kbd, samp { font-family: var(--font-mono); font-size: 0.9em; }
 
 @media (max-width:900px){
   .rst-site__inner, .rst-header__bar, .rst-hero, .rst-section, .rst-cta__inner, .rst-footer__grid, .rst-footer__bar{ padding-left:24px; padding-right:24px; }
-  .rst-header__nav{ display:none; }
-  .rst-header__signin{ display:none; }
-  .rst-header__menu{ display:inline-flex; }
+  .rst-header__nav{ gap:22px; }            /* keep the menu in the bar, just tighter */
+  .rst-header__signin{ display:none; }     /* hide the text sign-in link to make room */
   .rst-hero{ padding-top:24px; padding-bottom:56px; }
   .rst-hero__grid{ grid-template-columns:1fr; gap:56px; }
   .rst-hero__title{ font-size:44px; }
@@ -586,6 +585,11 @@ code, kbd, samp { font-family: var(--font-mono); font-size: 0.9em; }
   .rst-cta__inner{ grid-template-columns:1fr; gap:36px; padding-top:56px; padding-bottom:56px; }
   .rst-cta h2{ font-size:34px; }
   .rst-footer__grid{ grid-template-columns:1fr 1fr; gap:28px; }
+}
+@media (max-width:640px){
+  /* only on phone widths: collapse the menu into the hamburger */
+  .rst-header__nav{ display:none; }
+  .rst-header__menu{ display:inline-flex; }
 }
 @media (max-width:560px){
   .rst-services{ grid-template-columns:1fr; }
