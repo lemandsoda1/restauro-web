@@ -26,6 +26,7 @@ const LOGOS = [
   { name: "Bistum Regensburg", src: "/logos/bistum-regensburg.png" },
   { name: "Kunsthistorisches Museum Wien", src: "/logos/kunsthistorisches-museum-wien.png" },
   { name: "Staatliches Bauamt Rosenheim", src: "/logos/staatliches-bauamt-rosenheim.png" },
+  { name: "Erzdiözese München und Freising", src: "/logos/erzdioezese-muenchen-freising.png" },
 ];
 
 const SERVICES = [
