@@ -21,8 +21,11 @@ const HERO = {
 const LOGOS_EYEBROW = "Vertrauen von Museen, Galerien & Sammlern";
 const LOGOS = [
   { name: "Bayerische Schlösserverwaltung", src: "/logos/bayerische-schloesserverwaltung.png" },
+  { name: "Erzbistum Berlin", src: "/logos/erzbistum-berlin.png" },
   { name: "Stiftung Fürst Liechtenstein", src: "/logos/stiftung-fuerst-liechtenstein.png" },
+  { name: "Bistum Regensburg", src: "/logos/bistum-regensburg.png" },
   { name: "Kunsthistorisches Museum Wien", src: "/logos/kunsthistorisches-museum-wien.png" },
+  { name: "Staatliches Bauamt Rosenheim", src: "/logos/staatliches-bauamt-rosenheim.png" },
 ];
 
 const SERVICES = [
