@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { ButtonLink, Eyebrow, WorkCard, Badge, Plate, Icon } from "../ds";
@@ -42,12 +42,6 @@ const SERVICES = [
   { icon: "brush", title: "Reinigung & Restaurierung", text: "Oberflächenreinigung, strukturelle Reparatur, Retusche und Neufirnis durch Fachrestauratoren." },
   { icon: "frame", title: "Rahmung & Montierung", text: "Konservatorische Rahmung, Verglasung und archivfeste Montierungen, individuell auf jedes Werk abgestimmt." },
   { icon: "shield-check", title: "Präventive Konservierung", text: "Klimauntersuchungen, Pflegekonzepte für Sammlungen und Zustandskontrolle über die Zeit." },
-];
-
-const STEPS = [
-  { n: "01", title: "Fotos hochladen", text: "Fotografieren Sie Ihr Werk aus mehreren Winkeln — Schäden, Details und Gesamtzustand.", meta: "JPG, PNG oder WebP · bis zu 10 Bilder" },
-  { n: "02", title: "Angebot erhalten", text: "Unsere Restauratoren beurteilen den Zustand und erstellen ein detailliertes, unverbindliches Angebot.", meta: "Innerhalb von 48 Stunden" },
-  { n: "03", title: "Fortschritt verfolgen", text: "Geben Sie das Angebot frei und verfolgen Sie den Weg Ihres Werks bis zur Fertigstellung im Portal.", meta: "Transparenter Status in Echtzeit" },
 ];
 
 const FAQ = [
@@ -197,53 +191,86 @@ function Services() {
   );
 }
 
-/* Dark editorial showcase — inspired layout: headline (left), portrait image
-   with a floating "work" card (center), short copy + outlined CTA (right). */
-function Showcase() {
+// Der komplette Ablauf als Karten-Carousel (dunkle Section). Reihenfolge/Texte
+// hier pflegen; Icons müssen im DS-Icon-Set existieren.
+const PROCESS = [
+  { icon: "upload", title: "Foto hochladen", text: "Laden Sie Fotos Ihres Werks aus mehreren Winkeln hoch — Schäden, Details und Gesamtzustand." },
+  { icon: "search", title: "Durchsicht & Bewertung", text: "Unsere Experten prüfen Zustand und Anforderungen des Objekts sorgfältig." },
+  { icon: "receipt", title: "Angebot", text: "Sie erhalten ein unverbindliches Angebot für die Restaurierung des Objekts." },
+  { icon: "archive", title: "Versand zu uns", text: "Nach Freigabe senden Sie das Objekt versichert an unser Atelier." },
+  { icon: "brush", title: "Restaurierung", text: "Wir restaurieren Ihr Werk fachgerecht und gemäß dem vereinbarten Angebot." },
+  { icon: "file-text", title: "Dokumentation & Rückversand", text: "Vollständige Foto­dokumentation und sicherer Rückversand an Sie." },
+];
+
+/* The whole process as a card carousel: dark section, swipeable step cards,
+   prev/next arrows and progress dots. */
+function ProcessCarousel() {
+  const trackRef = useRef(null);
+  const [active, setActive] = useState(0);
+
+  const scrollToIndex = (i) => {
+    const track = trackRef.current;
+    const card = track && track.children[i];
+    if (!track || !card) return;
+    const delta = card.getBoundingClientRect().left - track.getBoundingClientRect().left;
+    track.scrollTo({ left: track.scrollLeft + delta, behavior: "smooth" });
+  };
+
+  const onScroll = () => {
+    const track = trackRef.current;
+    if (!track) return;
+    const tl = track.getBoundingClientRect().left;
+    let best = 0, bestD = Infinity;
+    Array.from(track.children).forEach((c, i) => {
+      const d = Math.abs(c.getBoundingClientRect().left - tl);
+      if (d < bestD) { bestD = d; best = i; }
+    });
+    setActive(best);
+  };
+
   return (
-    <section className="rst-show" aria-label="Vom Foto zum Angebot">
+    <section className="rst-show" id="ablauf" aria-label="Ablauf in sechs Schritten">
       <div className="rst-show__inner">
-        <div className="rst-show__lead">
-          <h2 className="rst-show__headline">Vom Foto<br />zum <em>Angebot</em></h2>
+        <div className="rst-show__head">
+          <span className="rst-show__eyebrow">In sechs Schritten</span>
+          <h2 className="rst-show__title">Vom Foto zum <em>Angebot</em></h2>
         </div>
-        <div className="rst-show__stage">
-          <div className="rst-show__photo">
-            <img src="/hero.webp" alt="Restaurator bei der Arbeit an einem Werk" loading="lazy" />
+
+        <div className="rst-carousel">
+          <div className="rst-carousel__track" ref={trackRef} onScroll={onScroll}>
+            {PROCESS.map((p, i) => (
+              <article className="rst-proc-card" key={i}>
+                <div className="rst-proc-card__icon"><Icon name={p.icon} size={22} /></div>
+                <div className="rst-proc-card__step">Schritt {i + 1}</div>
+                <h3 className="rst-proc-card__title">{p.title}</h3>
+                <p className="rst-proc-card__text">{p.text}</p>
+              </article>
+            ))}
           </div>
-          <div className="rst-show__card">
-            <div className="rst-show__card-thumb" aria-hidden="true" />
-            <div className="rst-show__card-body">
-              <div className="rst-show__card-meta">Öl auf Leinwand · 19. Jh.</div>
-              <div className="rst-show__card-title">Bildnis einer Dame</div>
+
+          <div className="rst-carousel__controls">
+            <div className="rst-carousel__dots">
+              {PROCESS.map((_, i) => (
+                <button key={i} className={`rst-dot${i === active ? " rst-dot--active" : ""}`}
+                  aria-label={`Zu Schritt ${i + 1}`} onClick={() => scrollToIndex(i)} />
+              ))}
             </div>
-            <Badge tone="warning" dot>In Prüfung</Badge>
+            <div className="rst-carousel__arrows">
+              <button className="rst-arrow" aria-label="Zurück" disabled={active === 0}
+                onClick={() => scrollToIndex(Math.max(0, active - 1))}>
+                <Icon name="arrow-left" size={18} />
+              </button>
+              <button className="rst-arrow" aria-label="Weiter" disabled={active === PROCESS.length - 1}
+                onClick={() => scrollToIndex(Math.min(PROCESS.length - 1, active + 1))}>
+                <Icon name="arrow-right" size={18} />
+              </button>
+            </div>
           </div>
         </div>
-        <div className="rst-show__aside">
-          <p>Laden Sie Fotos Ihres Werks hoch — wir prüfen den Zustand und erstellen ein unverbindliches Angebot. Den Fortschritt verfolgen Sie jederzeit im Portal.</p>
+
+        <div className="rst-show__cta">
           <ButtonLink as={Link} to="/anfrage" variant="hero" size="md">Angebot erhalten</ButtonLink>
         </div>
-      </div>
-    </section>
-  );
-}
-
-function HowItWorks() {
-  return (
-    <section id="ablauf" className="rst-section">
-      <SectionHead eyebrow="In drei Schritten" title="So funktioniert es" />
-      <div className="rst-services rst-services--3">
-        {STEPS.map((s, i) => (
-          <div key={i} className="rst-service">
-            <div className="rst-service__icon" style={{ fontFamily: "var(--font-mono)", fontSize: 15, fontWeight: 600 }}>{s.n}</div>
-            <h3>{s.title}</h3>
-            <p>{s.text}</p>
-            {s.meta ? <span className="r-mono" style={{ fontSize: 11, letterSpacing: ".06em", color: "var(--text-muted)", marginTop: "auto", paddingTop: 14 }}>{s.meta}</span> : null}
-          </div>
-        ))}
-      </div>
-      <div style={{ textAlign: "center", marginTop: 48 }}>
-        <ButtonLink as={Link} to="/anfrage" size="lg" endIcon={<Icon name="arrow-right" size={16} />}>Jetzt Angebot anfordern</ButtonLink>
       </div>
     </section>
   );
@@ -350,8 +377,7 @@ export default function HomePage() {
       <SiteHeader />
       <Hero />
       <Services />
-      <Showcase />
-      <HowItWorks />
+      <ProcessCarousel />
       <Featured />
       <ClosingCTA />
       <SiteFooter />
