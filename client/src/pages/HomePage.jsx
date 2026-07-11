@@ -202,17 +202,17 @@ const PROCESS = [
   { icon: "file-text", title: "Dokumentation & Rückversand", text: "Vollständige Foto­dokumentation und sicherer Rückversand an Sie." },
 ];
 
-/* The whole process as a card carousel: dark section, swipeable step cards,
-   prev/next arrows and progress dots. */
-function ProcessCarousel() {
+/* Reusable card carousel: scroll-snap track + prev/next arrows + progress dots.
+   `light` switches the controls to the dark-on-light theme. */
+function Carousel({ items, renderItem, light = false, itemClass = "", label = "Element" }) {
   const trackRef = useRef(null);
   const [active, setActive] = useState(0);
 
   const scrollToIndex = (i) => {
     const track = trackRef.current;
-    const card = track && track.children[i];
-    if (!track || !card) return;
-    const delta = card.getBoundingClientRect().left - track.getBoundingClientRect().left;
+    const item = track && track.children[i];
+    if (!track || !item) return;
+    const delta = item.getBoundingClientRect().left - track.getBoundingClientRect().left;
     track.scrollTo({ left: track.scrollLeft + delta, behavior: "smooth" });
   };
 
@@ -229,6 +229,39 @@ function ProcessCarousel() {
   };
 
   return (
+    <div className={`rst-carousel${light ? " rst-carousel--light" : ""}`}>
+      <div className="rst-carousel__track" ref={trackRef} onScroll={onScroll}>
+        {items.map((it, i) => (
+          <div className={`rst-carousel__item${itemClass ? " " + itemClass : ""}`} key={i}>
+            {renderItem(it, i)}
+          </div>
+        ))}
+      </div>
+      <div className="rst-carousel__controls">
+        <div className="rst-carousel__dots">
+          {items.map((_, i) => (
+            <button key={i} className={`rst-dot${i === active ? " rst-dot--active" : ""}`}
+              aria-label={`Zu ${label} ${i + 1}`} onClick={() => scrollToIndex(i)} />
+          ))}
+        </div>
+        <div className="rst-carousel__arrows">
+          <button className="rst-arrow" aria-label="Zurück" disabled={active === 0}
+            onClick={() => scrollToIndex(Math.max(0, active - 1))}>
+            <Icon name="arrow-left" size={18} />
+          </button>
+          <button className="rst-arrow" aria-label="Weiter" disabled={active === items.length - 1}
+            onClick={() => scrollToIndex(Math.min(items.length - 1, active + 1))}>
+            <Icon name="arrow-right" size={18} />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* The whole process as a dark card carousel. */
+function ProcessCarousel() {
+  return (
     <section className="rst-show" id="ablauf" aria-label="Ablauf in sechs Schritten">
       <div className="rst-show__inner">
         <div className="rst-show__head">
@@ -236,37 +269,14 @@ function ProcessCarousel() {
           <h2 className="rst-show__title">In drei Schritten zum <em>Angebot</em></h2>
         </div>
 
-        <div className="rst-carousel">
-          <div className="rst-carousel__track" ref={trackRef} onScroll={onScroll}>
-            {PROCESS.map((p, i) => (
-              <article className="rst-proc-card" key={i}>
-                <div className="rst-proc-card__icon"><Icon name={p.icon} size={22} /></div>
-                <div className="rst-proc-card__step">{i < 3 ? `Schritt ${i + 1}` : "Nach Zusage"}</div>
-                <h3 className="rst-proc-card__title">{p.title}</h3>
-                <p className="rst-proc-card__text">{p.text}</p>
-              </article>
-            ))}
-          </div>
-
-          <div className="rst-carousel__controls">
-            <div className="rst-carousel__dots">
-              {PROCESS.map((_, i) => (
-                <button key={i} className={`rst-dot${i === active ? " rst-dot--active" : ""}`}
-                  aria-label={`Zu Schritt ${i + 1}`} onClick={() => scrollToIndex(i)} />
-              ))}
-            </div>
-            <div className="rst-carousel__arrows">
-              <button className="rst-arrow" aria-label="Zurück" disabled={active === 0}
-                onClick={() => scrollToIndex(Math.max(0, active - 1))}>
-                <Icon name="arrow-left" size={18} />
-              </button>
-              <button className="rst-arrow" aria-label="Weiter" disabled={active === PROCESS.length - 1}
-                onClick={() => scrollToIndex(Math.min(PROCESS.length - 1, active + 1))}>
-                <Icon name="arrow-right" size={18} />
-              </button>
-            </div>
-          </div>
-        </div>
+        <Carousel items={PROCESS} label="Schritt" renderItem={(p, i) => (
+          <article className="rst-proc-card">
+            <div className="rst-proc-card__icon"><Icon name={p.icon} size={22} /></div>
+            <div className="rst-proc-card__step">{i < 3 ? `Schritt ${i + 1}` : "Nach Zusage"}</div>
+            <h3 className="rst-proc-card__title">{p.title}</h3>
+            <p className="rst-proc-card__text">{p.text}</p>
+          </article>
+        )} />
 
         <div className="rst-show__cta">
           <ButtonLink as={Link} to="/anfrage" variant="hero" size="md">Angebot erhalten</ButtonLink>
@@ -288,18 +298,15 @@ function Featured() {
   return (
     <section id="atelier" className="rst-section">
       <SectionHead eyebrow="Aus dem Atelier" title="Aktuelle Behandlungen" />
-      <div className="rst-works-grid">
-        {WORKS.map((w, i) => (
-          <WorkCard
-            key={i}
-            title={w.title}
-            artist={w.artist}
-            meta={w.meta}
-            status={workBadge(w.statusLabel)}
-            image={w.image ? w.image : <Plate ratio="4/5" tone={w.tone ?? i % 4} />}
-          />
-        ))}
-      </div>
+      <Carousel light label="Werk" items={WORKS} itemClass="rst-carousel__item--work" renderItem={(w, i) => (
+        <WorkCard
+          title={w.title}
+          artist={w.artist}
+          meta={w.meta}
+          status={workBadge(w.statusLabel)}
+          image={w.image ? w.image : <Plate ratio="4/5" tone={w.tone ?? i % 4} />}
+        />
+      )} />
     </section>
   );
 }

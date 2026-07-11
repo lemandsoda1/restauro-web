@@ -548,18 +548,19 @@ code, kbd, samp { font-family: var(--font-mono); font-size: 0.9em; }
 /* ── Dark process carousel (headline + swipeable step cards) ── */
 .rst-show{ background:var(--ink-900); color:#fff; padding:96px 40px; }
 .rst-show__inner{ max-width:1200px; margin:0 auto; }
-.rst-show__head{ text-align:center; max-width:640px; margin:0 auto; }
+.rst-show__head{ text-align:center; max-width:640px; margin:0 auto 46px; }
 .rst-show__eyebrow{ font-family:var(--font-mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent); }
 .rst-show__title{ font-family:var(--font-serif); font-weight:300; color:#fff; margin:14px 0 0;
   font-size:clamp(30px,3.4vw,48px); line-height:1.08; letter-spacing:-0.01em; }
 .rst-show__title em{ font-style:italic; font-weight:400; color:var(--accent); }
 
-.rst-carousel{ margin-top:46px; }
 .rst-carousel__track{ display:flex; gap:20px; overflow-x:auto; scroll-snap-type:x mandatory;
   scroll-behavior:smooth; scrollbar-width:none; padding-bottom:14px; }
 .rst-carousel__track::-webkit-scrollbar{ display:none; }
-.rst-proc-card{ flex:0 0 300px; scroll-snap-align:start; display:flex; flex-direction:column;
-  align-items:flex-start; background:var(--surface); color:var(--ink-900);
+.rst-carousel__item{ flex:0 0 300px; scroll-snap-align:start; }
+.rst-carousel__item--work{ flex-basis:320px; }
+.rst-proc-card{ display:flex; flex-direction:column; align-items:flex-start; height:100%;
+  background:var(--surface); color:var(--ink-900);
   border-radius:16px; padding:28px 26px; box-shadow:0 14px 36px rgba(0,0,0,.32); }
 .rst-proc-card__icon{ width:46px; height:46px; border-radius:12px; background:var(--royal-050);
   color:var(--royal-600); display:flex; align-items:center; justify-content:center; margin-bottom:16px; }
@@ -579,11 +580,16 @@ code, kbd, samp { font-family: var(--font-mono); font-size: 0.9em; }
   cursor:pointer; transition:background .2s ease, color .2s ease, border-color .2s ease; }
 .rst-arrow:hover:not(:disabled){ background:#fff; color:var(--ink-900); border-color:#fff; }
 .rst-arrow:disabled{ opacity:.3; cursor:default; }
+/* light theme (dark controls on a light section) */
+.rst-carousel--light .rst-dot{ background:rgba(12,22,56,.2); }
+.rst-carousel--light .rst-dot--active{ background:var(--accent); }
+.rst-carousel--light .rst-arrow{ border-color:rgba(12,22,56,.25); color:var(--ink-900); }
+.rst-carousel--light .rst-arrow:hover:not(:disabled){ background:var(--ink-900); color:#fff; border-color:var(--ink-900); }
 .rst-show__cta{ text-align:center; margin-top:40px; }
 
 @media (max-width:900px){
   .rst-show{ padding:64px 20px; }
-  .rst-proc-card{ flex-basis:82%; }
+  .rst-carousel__item{ flex-basis:82%; }
 }
 
 .rst-services{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
