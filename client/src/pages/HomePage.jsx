@@ -232,8 +232,8 @@ function ProcessCarousel() {
     <section className="rst-show" id="ablauf" aria-label="Ablauf in sechs Schritten">
       <div className="rst-show__inner">
         <div className="rst-show__head">
-          <span className="rst-show__eyebrow">In sechs Schritten</span>
-          <h2 className="rst-show__title">Vom Foto zum <em>Angebot</em></h2>
+          <span className="rst-show__eyebrow">So funktioniert es</span>
+          <h2 className="rst-show__title">In drei Schritten zum <em>Angebot</em></h2>
         </div>
 
         <div className="rst-carousel">
@@ -241,7 +241,7 @@ function ProcessCarousel() {
             {PROCESS.map((p, i) => (
               <article className="rst-proc-card" key={i}>
                 <div className="rst-proc-card__icon"><Icon name={p.icon} size={22} /></div>
-                <div className="rst-proc-card__step">Schritt {i + 1}</div>
+                <div className="rst-proc-card__step">{i < 3 ? `Schritt ${i + 1}` : "Nach Zusage"}</div>
                 <h3 className="rst-proc-card__title">{p.title}</h3>
                 <p className="rst-proc-card__text">{p.text}</p>
               </article>
