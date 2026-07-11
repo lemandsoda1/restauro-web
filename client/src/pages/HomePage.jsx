@@ -191,6 +191,37 @@ function Services() {
   );
 }
 
+/* Dark editorial showcase — inspired layout: headline (left), portrait image
+   with a floating "work" card (center), short copy + outlined CTA (right). */
+function Showcase() {
+  return (
+    <section className="rst-show" aria-label="Vom Foto zum Angebot">
+      <div className="rst-show__inner">
+        <div className="rst-show__lead">
+          <h2 className="rst-show__headline">Vom Foto<br />zum <em>Angebot</em></h2>
+        </div>
+        <div className="rst-show__stage">
+          <div className="rst-show__photo">
+            <img src="/hero.webp" alt="Restaurator bei der Arbeit an einem Werk" loading="lazy" />
+          </div>
+          <div className="rst-show__card">
+            <div className="rst-show__card-thumb" aria-hidden="true" />
+            <div className="rst-show__card-body">
+              <div className="rst-show__card-meta">Öl auf Leinwand · 19. Jh.</div>
+              <div className="rst-show__card-title">Bildnis einer Dame</div>
+            </div>
+            <Badge tone="warning" dot>In Prüfung</Badge>
+          </div>
+        </div>
+        <div className="rst-show__aside">
+          <p>Laden Sie Fotos Ihres Werks hoch — wir prüfen den Zustand und erstellen ein unverbindliches Angebot. Den Fortschritt verfolgen Sie jederzeit im Portal.</p>
+          <ButtonLink as={Link} to="/anfrage" variant="hero" size="md">Angebot erhalten</ButtonLink>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function HowItWorks() {
   return (
     <section id="ablauf" className="rst-section">
@@ -313,6 +344,7 @@ export default function HomePage() {
       <SiteHeader />
       <Hero />
       <Services />
+      <Showcase />
       <HowItWorks />
       <Featured />
       <ClosingCTA />
