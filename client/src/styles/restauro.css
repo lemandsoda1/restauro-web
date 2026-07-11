@@ -575,7 +575,15 @@ code, kbd, samp { font-family: var(--font-mono); font-size: 0.9em; }
   .rst-show__aside{ max-width:380px; }
 }
 
-.rst-services{ display:grid; grid-template-columns:repeat(4,1fr); gap:28px; }
+.rst-services{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+.rst-services--3{ grid-template-columns:repeat(3,1fr); }
+/* card system applied to the service / step tiles */
+.rst-service{ display:flex; flex-direction:column; background:var(--surface);
+  border:1px solid var(--border); border-radius:var(--radius-lg); padding:30px 26px;
+  box-shadow:var(--shadow-sm);
+  transition:box-shadow var(--duration-normal) var(--ease-standard),
+             transform var(--duration-normal) var(--ease-standard); }
+.rst-service:hover{ box-shadow:var(--shadow-md); transform:translateY(-3px); }
 .rst-service__icon{ width:48px; height:48px; border-radius:var(--radius-md); background:var(--royal-050); color:var(--royal-600); display:flex; align-items:center; justify-content:center; margin-bottom:18px; }
 .rst-service h3{ font-family:var(--font-serif); font-size:22px; font-weight:600; margin:0 0 8px; color:var(--ink-900); }
 .rst-service p{ font-size:14px; line-height:1.6; color:var(--stone-600); margin:0; }

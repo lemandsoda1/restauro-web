@@ -174,18 +174,16 @@ function SectionHead({ eyebrow, title, lead }) {
 
 function Services() {
   return (
-    <section id="leistungen" className="rst-section--surface">
-      <div className="rst-section">
-        <SectionHead eyebrow="Was wir tun" title="Leistungen" />
-        <div className="rst-services">
-          {SERVICES.map((s, i) => (
-            <div key={i} className="rst-service">
-              <div className="rst-service__icon"><Icon name={s.icon || "sparkles"} size={22} /></div>
-              <h3>{s.title}</h3>
-              <p>{s.text}</p>
-            </div>
-          ))}
-        </div>
+    <section id="leistungen" className="rst-section">
+      <SectionHead eyebrow="Was wir tun" title="Leistungen" />
+      <div className="rst-services">
+        {SERVICES.map((s, i) => (
+          <div key={i} className="rst-service">
+            <div className="rst-service__icon"><Icon name={s.icon || "sparkles"} size={22} /></div>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </div>
+        ))}
       </div>
     </section>
   );
@@ -226,13 +224,13 @@ function HowItWorks() {
   return (
     <section id="ablauf" className="rst-section">
       <SectionHead eyebrow="In drei Schritten" title="So funktioniert es" />
-      <div className="rst-services">
+      <div className="rst-services rst-services--3">
         {STEPS.map((s, i) => (
-          <div key={i} className="rst-service" style={{ gridColumn: "span 1" }}>
+          <div key={i} className="rst-service">
             <div className="rst-service__icon" style={{ fontFamily: "var(--font-mono)", fontSize: 15, fontWeight: 600 }}>{s.n}</div>
             <h3>{s.title}</h3>
             <p>{s.text}</p>
-            {s.meta ? <span className="r-mono" style={{ fontSize: 11, letterSpacing: ".06em", color: "var(--text-muted)" }}>{s.meta}</span> : null}
+            {s.meta ? <span className="r-mono" style={{ fontSize: 11, letterSpacing: ".06em", color: "var(--text-muted)", marginTop: "auto", paddingTop: 14 }}>{s.meta}</span> : null}
           </div>
         ))}
       </div>
