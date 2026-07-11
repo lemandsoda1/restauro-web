@@ -834,10 +834,10 @@ code, kbd, samp { font-family: var(--font-mono); font-size: 0.9em; }
     linear-gradient(0deg, rgba(12,22,56,.35) 0%, rgba(12,22,56,0) 30%); }
 .rst-hero-full__inner{ position:relative; z-index:2; flex:1; display:flex; flex-direction:column;
   justify-content:center; max-width:1200px; margin:0 auto; width:100%; padding:128px 40px 88px; box-sizing:border-box; }
-.rst-hero-full__title{ font-family:var(--font-serif); font-weight:500; color:#fff; margin:0;
-  font-size:clamp(40px, 7.6vw, 88px); line-height:1.05; letter-spacing:-0.015em; max-width:20ch;
-  text-shadow:0 2px 28px rgba(0,0,0,.5); }
-.rst-hero-full__title em{ font-style:italic; }
+.rst-hero-full__title{ font-family:var(--font-serif); font-weight:300; color:#fff; margin:0;
+  font-size:clamp(40px, 7.8vw, 92px); line-height:1.03; letter-spacing:-0.015em; max-width:20ch;
+  text-shadow:0 2px 30px rgba(0,0,0,.55); }
+.rst-hero-full__title em{ font-style:italic; font-weight:400; }
 .rst-hero-full__lede{ color:rgba(255,255,255,.94); font-size:18px; line-height:1.5; max-width:42ch;
   margin:22px 0 0; text-shadow:0 1px 16px rgba(0,0,0,.55); }
 .rst-hero-full__cta{ display:flex; gap:14px; flex-wrap:wrap; margin-top:30px; }

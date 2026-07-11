@@ -11,8 +11,16 @@ import { ButtonLink, Eyebrow, WorkCard, Badge, Plate, Icon } from "../ds";
 
 const HERO = {
   title: "Werkstätte für Kunstrestaurierung und Konservierung",
+  emphasis: "Kunstrestaurierung", // dieses Wort wird kursiv als Akzent gesetzt
   lede: "", // Untertitel unter dem Hero-Titel; leer lassen = kein Text
 };
+
+/* Renders the hero headline with one italic accent word (à la "Never Overpay Again"). */
+function heroHeadline(text, emph) {
+  const i = emph ? text.indexOf(emph) : -1;
+  if (i === -1) return text;
+  return <>{text.slice(0, i)}<em>{emph}</em>{text.slice(i + emph.length)}</>;
+}
 
 // Logo-Carousel unter dem Hero. Jeder Eintrag ist entweder ein Bild
 // ({ name, src: "/logos/xyz.svg" }) oder — solange noch kein Bild da ist —
@@ -118,7 +126,7 @@ function Hero() {
       <section className="rst-hero-full">
         <div className="rst-hero-full__scrim" />
         <div className="rst-hero-full__inner">
-          <h1 className="rst-hero-full__title">{HERO.title}</h1>
+          <h1 className="rst-hero-full__title">{heroHeadline(HERO.title, HERO.emphasis)}</h1>
           {HERO.lede ? <p className="rst-hero-full__lede">{HERO.lede}</p> : null}
           <div className="rst-hero-full__cta">
             <ButtonLink as={Link} to="/anfrage" size="lg" variant="accent" endIcon={<Icon name="arrow-right" size={16} />}>
