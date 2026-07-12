@@ -552,6 +552,19 @@ code, kbd, samp { font-family: var(--font-mono); font-size: 0.9em; }
 .rst-reqhead__title{ font-family:var(--font-serif); font-weight:600; font-size:clamp(30px,5vw,44px); line-height:1.05; letter-spacing:-0.015em; color:var(--ink-900); margin:14px 0 10px; text-wrap:balance; }
 .rst-reqhead__lede{ font-family:var(--font-serif); font-size:18px; line-height:1.55; color:var(--text-muted); max-width:52ch; margin:0; }
 
+/* team cards — same card system as services/works */
+.rst-team{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:8px; }
+.rst-teamcard{ display:flex; flex-direction:column; background:var(--surface); border:1px solid var(--border);
+  border-radius:16px; overflow:hidden; box-shadow:var(--shadow-sm);
+  transition:box-shadow var(--duration-normal) var(--ease-standard), transform var(--duration-normal) var(--ease-standard); }
+.rst-teamcard:hover{ box-shadow:var(--shadow-md); transform:translateY(-3px); }
+.rst-teamcard__body{ padding:20px 22px 24px; display:flex; flex-direction:column; gap:6px; }
+.rst-teamcard__role{ font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ochre-500); }
+.rst-teamcard__name{ font-family:var(--font-serif); font-size:22px; font-weight:600; color:var(--ink-900); margin:0; }
+.rst-teamcard__bio{ font-size:14px; line-height:1.6; color:var(--stone-600); margin:2px 0 0; }
+@media (max-width:900px){ .rst-team{ grid-template-columns:1fr 1fr; gap:20px; } }
+@media (max-width:560px){ .rst-team{ grid-template-columns:1fr; } }
+
 /* ── Dark process carousel (headline + swipeable step cards) ── */
 .rst-show{ background:var(--ink-900); color:#fff; padding:96px 40px; }
 .rst-show__inner{ max-width:1200px; margin:0 auto; }

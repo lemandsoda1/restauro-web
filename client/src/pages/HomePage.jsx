@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { ButtonLink, Eyebrow, WorkCard, Badge, Plate, Icon } from "../ds";
+import SiteFooter from "../components/SiteFooter";
 
 /* ============================================================================
  * SEITENINHALTE — hier direkt im Code pflegen.
@@ -49,12 +50,6 @@ const FAQ = [
   { q: "Holen Sie das Objekt ab?", a: "Ja — versicherte Abholung und Rücklieferung sind innerhalb der Region inbegriffen." },
   { q: "Erhalte ich eine Dokumentation?", a: "Jedes Projekt schließt mit einem vollständigen fotografischen Zustands- und Behandlungsbericht ab." },
 ];
-
-const CONTACT = {
-  email: "hallo@westermeier-restaurierung.de",
-  phone: "+49 89 000 0000",
-  address: "Kunststraße 18, München",
-};
 
 // Referenzen unter „Aktuelle Behandlungen". image ist optional — ohne Bild
 // wird eine getönte Platzhalter-Platte gezeigt (tone 0–3).
@@ -398,47 +393,6 @@ function ClosingCTA() {
         </div>
       </div>
     </section>
-  );
-}
-
-function SiteFooter() {
-  const c = CONTACT;
-  return (
-    <footer className="rst-footer">
-      <div className="rst-footer__grid">
-        <div>
-          <div className="rst-hero-wordmark">Westermeier<br />Restaurierung</div>
-          <p className="rst-footer__lede">Werkstätte für Kunstrestaurierung und Konservierung — Gemälde, Fresken, Papierarbeiten und Objekte.</p>
-        </div>
-        <div>
-          <div className="rst-footer__col-h">Atelier</div>
-          <div className="rst-footer__links">
-            {["Leistungen", "Das Team", "Journal", "Karriere"].map((l) => <a key={l} href="#">{l}</a>)}
-          </div>
-        </div>
-        <div>
-          <div className="rst-footer__col-h">Sammler</div>
-          <div className="rst-footer__links">
-            <Link to="/anfrage">Beratung anfragen</Link>
-            <Link to="/login">Kundenportal</Link>
-            <a href="#">Versicherung</a>
-            <a href="#">Versand</a>
-          </div>
-        </div>
-        <div>
-          <div className="rst-footer__col-h">Kontakt</div>
-          <div className="rst-footer__links">
-            {c.email ? <a href={`mailto:${c.email}`}>{c.email}</a> : null}
-            {c.phone ? <a href={`tel:${c.phone.replace(/\s+/g, "")}`}>{c.phone}</a> : null}
-            {c.address ? <span style={{ color: "var(--stone-700)", fontSize: 14 }}>{c.address}</span> : null}
-          </div>
-        </div>
-      </div>
-      <div className="rst-footer__bar">
-        <span>© {new Date().getFullYear()} Westermeier Restaurierung</span>
-        <span><Link to="/impressum">Datenschutz · Impressum</Link></span>
-      </div>
-    </footer>
   );
 }
 
