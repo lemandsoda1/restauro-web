@@ -229,7 +229,13 @@ function Carousel({ items, renderItem, light = false, itemClass = "", label = "E
       if (d < bestD) { bestD = d; best = i; }
     });
     setActive(best);
+    // fade a side only when there is content to scroll that way
+    const max = track.scrollWidth - track.clientWidth;
+    track.style.setProperty("--fl", track.scrollLeft > 4 ? "72px" : "0px");
+    track.style.setProperty("--fr", track.scrollLeft < max - 4 ? "72px" : "0px");
   };
+
+  useEffect(() => { onScroll(); }, []);
 
   return (
     <div className={`rst-carousel${light ? " rst-carousel--light" : ""}`}>
