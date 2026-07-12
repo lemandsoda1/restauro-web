@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import useAuth from "./hooks/useAuth";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -27,78 +28,81 @@ export default function App() {
   }
 
   return (
-    <Routes>
-      {/* Public */}
-      <Route path="/" element={<HomePage />} />
-      <Route path="/impressum" element={<ImpressumPage />} />
-      <Route path="/team" element={<TeamPage />} />
-      <Route
-        path="/login"
-        element={user ? <Navigate to={user.role === "admin" ? "/admin" : "/dashboard"} /> : <LoginPage />}
-      />
-      <Route
-        path="/register"
-        element={user ? <Navigate to="/dashboard" /> : <RegisterPage />}
-      />
-      <Route
-        path="/anfrage"
-        element={user ? <Navigate to="/requests/new" /> : <PublicRequestPage />}
-      />
+    <>
+      <Routes>
+        {/* Public */}
+        <Route path="/" element={<HomePage />} />
+        <Route path="/impressum" element={<ImpressumPage />} />
+        <Route path="/team" element={<TeamPage />} />
+        <Route
+          path="/login"
+          element={user ? <Navigate to={user.role === "admin" ? "/admin" : "/dashboard"} /> : <LoginPage />}
+        />
+        <Route
+          path="/register"
+          element={user ? <Navigate to="/dashboard" /> : <RegisterPage />}
+        />
+        <Route
+          path="/anfrage"
+          element={user ? <Navigate to="/requests/new" /> : <PublicRequestPage />}
+        />
 
-      {/* Client */}
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <DashboardPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/requests/new"
-        element={
-          <ProtectedRoute>
-            <NewRequestPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/requests/:id"
-        element={
-          <ProtectedRoute>
-            <RequestDetailPage />
-          </ProtectedRoute>
-        }
-      />
+        {/* Client */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/requests/new"
+          element={
+            <ProtectedRoute>
+              <NewRequestPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/requests/:id"
+          element={
+            <ProtectedRoute>
+              <RequestDetailPage />
+            </ProtectedRoute>
+          }
+        />
 
-      {/* Admin */}
-      <Route
-        path="/admin"
-        element={
-          <ProtectedRoute adminOnly>
-            <AdminDashboardPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/admin/clients"
-        element={
-          <ProtectedRoute adminOnly>
-            <AdminClientsPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/admin/requests/:id"
-        element={
-          <ProtectedRoute adminOnly>
-            <AdminRequestDetailPage />
-          </ProtectedRoute>
-        }
-      />
+        {/* Admin */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute adminOnly>
+              <AdminDashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/clients"
+          element={
+            <ProtectedRoute adminOnly>
+              <AdminClientsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/requests/:id"
+          element={
+            <ProtectedRoute adminOnly>
+              <AdminRequestDetailPage />
+            </ProtectedRoute>
+          }
+        />
 
-      {/* Fallback */}
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+      <SpeedInsights />
+    </>
   );
 }
