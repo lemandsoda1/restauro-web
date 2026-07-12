@@ -341,6 +341,9 @@ function ProcessCarousel() {
 
         <div className="rst-show__cta">
           <ButtonLink as={Link} to="/anfrage" variant="hero" size="md">Angebot erhalten</ButtonLink>
+          <p className="rst-show__note">
+            Für institutionelle Kunden — <a href="mailto:hallo@westermeier-restaurierung.de">nehmen Sie hier Kontakt mit uns auf</a>.
+          </p>
         </div>
       </div>
     </section>

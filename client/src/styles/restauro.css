@@ -607,6 +607,9 @@ code, kbd, samp { font-family: var(--font-mono); font-size: 0.9em; }
 .rst-carousel--light .rst-arrow{ border-color:rgba(12,22,56,.25); color:var(--ink-900); }
 .rst-carousel--light .rst-arrow:hover:not(:disabled){ background:var(--ink-900); color:#fff; border-color:var(--ink-900); }
 .rst-show__cta{ text-align:center; margin-top:40px; }
+.rst-show__note{ margin:16px 0 0; font-family:var(--font-grotesque); font-size:13.5px; color:rgba(255,255,255,.62); }
+.rst-show__note a{ color:var(--accent); text-decoration:underline; text-underline-offset:2px; }
+.rst-show__note a:hover{ color:#fff; }
 
 @media (max-width:900px){
   .rst-show{ padding:64px 20px; }

@@ -145,7 +145,7 @@ export default function PublicRequestPage() {
         </Card>
 
         <p className="rst-muted" style={{ fontSize: 12.5, textAlign: "center", marginTop: 20, fontFamily: "var(--font-grotesque)" }}>
-          Unverbindlich · Antwort innerhalb von 48 Stunden
+          Unverbindlich · wir kümmern uns umgehend um Ihre Anfrage
         </p>
       </div>
     </div>
