@@ -268,8 +268,35 @@ function Carousel({ items, renderItem, light = false, itemClass = "", label = "E
   );
 }
 
-/* The whole process as a dark card carousel. */
+/* The process as a stacked card deck: cards piled with an organic offset; the
+   top card flips away when you advance. Tap the top card, use the arrows or dots. */
+// Per-card jitter (deg / px) so the pile looks hand-stacked, not machine-uniform.
+const DECK_ROT = [0, -2.6, 2.1, -1.5, 2.5, -1.9];
+const DECK_DX = [0, 8, -7, 6, -9, 5];
+
 function ProcessCarousel() {
+  const [active, setActive] = useState(0);
+  const n = PROCESS.length;
+  const go = (i) => setActive(Math.max(0, Math.min(n - 1, i)));
+
+  const cardStyle = (i) => {
+    const pos = i - active;
+    if (pos < 0) {
+      // flipped away, off the top of the pile
+      return { transform: "translateY(-46%) rotateX(40deg) rotateZ(-4deg) scale(.96)", opacity: 0, zIndex: 60 + i, pointerEvents: "none" };
+    }
+    if (pos === 0) {
+      return { transform: "translateY(0) rotate(0deg) scale(1)", opacity: 1, zIndex: 50 };
+    }
+    const d = Math.min(pos, 4);
+    return {
+      transform: `translateY(${d * 13}px) translateX(${DECK_DX[i % DECK_DX.length]}px) rotate(${DECK_ROT[i % DECK_ROT.length]}deg) scale(${(1 - d * 0.05).toFixed(3)})`,
+      opacity: pos <= 3 ? 1 : 0,
+      zIndex: 50 - pos,
+      pointerEvents: "none",
+    };
+  };
+
   return (
     <section className="rst-show" id="ablauf" aria-label="Ablauf in sechs Schritten">
       <div className="rst-show__inner">
@@ -278,14 +305,39 @@ function ProcessCarousel() {
           <h2 className="rst-show__title">In drei Schritten zum <em>Angebot</em></h2>
         </div>
 
-        <Carousel items={PROCESS} label="Schritt" renderItem={(p, i) => (
-          <article className="rst-proc-card">
-            <div className="rst-proc-card__icon"><Icon name={p.icon} size={22} /></div>
-            <div className="rst-proc-card__step">{i < 3 ? `Schritt ${i + 1}` : "Nach Zusage"}</div>
-            <h3 className="rst-proc-card__title">{p.title}</h3>
-            <p className="rst-proc-card__text">{p.text}</p>
-          </article>
-        )} />
+        <div className="rst-deck">
+          {PROCESS.map((p, i) => (
+            <article
+              className="rst-deck__card rst-proc-card"
+              key={i}
+              style={cardStyle(i)}
+              aria-hidden={i === active ? "false" : "true"}
+              onClick={i === active ? () => go(active + 1) : undefined}
+            >
+              <div className="rst-proc-card__icon"><Icon name={p.icon} size={22} /></div>
+              <div className="rst-proc-card__step">{i < 3 ? `Schritt ${i + 1}` : "Nach Zusage"}</div>
+              <h3 className="rst-proc-card__title">{p.title}</h3>
+              <p className="rst-proc-card__text">{p.text}</p>
+            </article>
+          ))}
+        </div>
+
+        <div className="rst-carousel__controls">
+          <div className="rst-carousel__dots">
+            {PROCESS.map((_, i) => (
+              <button key={i} className={`rst-dot${i === active ? " rst-dot--active" : ""}`}
+                aria-label={`Zu Schritt ${i + 1}`} onClick={() => go(i)} />
+            ))}
+          </div>
+          <div className="rst-carousel__arrows">
+            <button className="rst-arrow" aria-label="Zurück" disabled={active === 0} onClick={() => go(active - 1)}>
+              <Icon name="arrow-left" size={18} />
+            </button>
+            <button className="rst-arrow" aria-label="Weiter" disabled={active === n - 1} onClick={() => go(active + 1)}>
+              <Icon name="arrow-right" size={18} />
+            </button>
+          </div>
+        </div>
 
         <div className="rst-show__cta">
           <ButtonLink as={Link} to="/anfrage" variant="hero" size="md">Angebot erhalten</ButtonLink>
