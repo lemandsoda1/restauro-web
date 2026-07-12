@@ -297,7 +297,7 @@ function workBadge(label) {
 function Featured() {
   return (
     <section id="atelier" className="rst-section">
-      <SectionHead eyebrow="Aus dem Atelier" title="Aktuelle Behandlungen" />
+      <SectionHead eyebrow="Aus der Werkstätte" title="Aktuelle Restaurierungen" />
       <Carousel light label="Werk" items={WORKS} itemClass="rst-carousel__item--work" renderItem={(w, i) => (
         <WorkCard
           title={w.title}
