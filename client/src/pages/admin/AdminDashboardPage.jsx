@@ -74,7 +74,7 @@ export default function AdminDashboardPage() {
             <table className="rst-table">
               <thead>
                 <tr>
-                  <th>Werk</th>
+                  <th>Objekt</th>
                   <th className="col-hide-sm">Referenz</th>
                   <th className="col-hide-sm">Kunde</th>
                   <th>Status</th>

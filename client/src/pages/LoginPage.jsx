@@ -33,7 +33,7 @@ export default function LoginPage() {
           Westermeier<br />Restaurierung
         </Link>
         <div>
-          <h2>Die stille Kunst,<br /><em>Werke zurückzubringen</em></h2>
+          <h2>Die stille Kunst,<br /><em>Objekte zurückzubringen</em></h2>
           <p>Melden Sie sich an, um Ihre Anfragen, Angebote und den Behandlungsfortschritt einzusehen.</p>
         </div>
         <div className="r-mono" style={{ fontSize: 11, letterSpacing: ".14em", color: "rgba(247,242,232,.5)", position: "relative" }}>

@@ -70,12 +70,12 @@ export default function DashboardPage() {
       actions={<ButtonLink as={Link} to="/requests/new" size="sm" startIcon={<Icon name="plus" size={15} />}>Neue Anfrage</ButtonLink>}
     >
       <Eyebrow>{today}</Eyebrow>
-      <h1 className="rst-page-title">Meine Werke</h1>
+      <h1 className="rst-page-title">Meine Objekte</h1>
 
       <div className="rst-stats">
         <Stat label="Aktiv" value={active.length} sub={review.length ? `${review.length} benötigt Ihre Freigabe` : "In Bearbeitung"} icon="brush" />
         <Stat label="Gesamt" value={requests.length} sub="Anfragen insgesamt" icon="frame" />
-        <Stat label="Abgeschlossen" value={done.length} sub="Fertiggestellte Werke" icon="check-circle" />
+        <Stat label="Abgeschlossen" value={done.length} sub="Fertiggestellte Objekte" icon="check-circle" />
       </div>
 
       <div className="rst-toolbar">
@@ -97,7 +97,7 @@ export default function DashboardPage() {
           </div>
         </Card>
       ) : shown.length === 0 ? (
-        <Card variant="outline"><div className="rst-empty"><p>Keine Werke in dieser Ansicht.</p></div></Card>
+        <Card variant="outline"><div className="rst-empty"><p>Keine Objekte in dieser Ansicht.</p></div></Card>
       ) : (
         <Card variant="outline" padding="sm">
           <div style={{ display: "flex", flexDirection: "column" }}>

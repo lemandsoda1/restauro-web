@@ -75,14 +75,15 @@ export default function PublicRequestPage() {
       </header>
 
       <div style={{ maxWidth: 680, margin: "0 auto", padding: "48px 24px 80px" }}>
-        <Eyebrow rule>Angebot anfordern</Eyebrow>
-        <h1 style={{ fontFamily: "var(--font-serif)", fontSize: 40, fontWeight: 600, lineHeight: 1.05, letterSpacing: "-0.02em", margin: "16px 0 8px", color: "var(--ink-900)" }}>
-          Erzählen Sie uns von Ihrem Werk
-        </h1>
-        <p className="rst-prose" style={{ maxWidth: "52ch", margin: "0 0 28px" }}>
-          Laden Sie Fotos hoch und beschreiben Sie das Objekt. Ihr Konto wird dabei automatisch erstellt — danach
-          verfolgen Sie Ihr Angebot jederzeit im Portal.
-        </p>
+        <div className="rst-reqhead">
+          <span className="rst-reqhead__rule" aria-hidden="true" />
+          <span className="rst-reqhead__eyebrow">Angebot anfordern</span>
+          <h1 className="rst-reqhead__title">Erzählen Sie uns von Ihrem Objekt</h1>
+          <p className="rst-reqhead__lede">
+            Laden Sie Fotos hoch und beschreiben Sie das Objekt. Ihr Konto wird dabei automatisch erstellt — danach
+            verfolgen Sie Ihr Angebot jederzeit im Portal.
+          </p>
+        </div>
 
         <div style={{ marginBottom: 28 }}><Stepper steps={STEPS} current={step} /></div>
 
@@ -112,7 +113,7 @@ export default function PublicRequestPage() {
                 Fotos hochladen <span style={{ color: "var(--royal-600)" }}>*</span>
               </div>
               <p className="rst-muted" style={{ fontSize: 13, margin: "0 0 14px", fontFamily: "var(--font-grotesque)" }}>
-                Fotografieren Sie das Werk aus mehreren Winkeln — Gesamtansicht, Details und sichtbare Schäden.
+                Fotografieren Sie das Objekt aus mehreren Winkeln — Gesamtansicht, Details und sichtbare Schäden.
               </p>
               <ImageUploader files={files} setFiles={setFiles} />
             </div>

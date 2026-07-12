@@ -49,7 +49,7 @@ export default function NewRequestPage() {
     <Layout title="Neue Anfrage">
       <div className="rst-form-narrow">
         <Eyebrow>Restaurierungsanfrage</Eyebrow>
-        <h1 className="rst-page-title" style={{ marginBottom: 24 }}>Erzählen Sie uns von Ihrem Werk</h1>
+        <h1 className="rst-page-title" style={{ marginBottom: 24 }}>Erzählen Sie uns von Ihrem Objekt</h1>
 
         <div style={{ marginBottom: 28 }}><Stepper steps={STEPS} current={step} /></div>
 
@@ -74,7 +74,7 @@ export default function NewRequestPage() {
                 Fotos hochladen <span style={{ color: "var(--royal-600)" }}>*</span>
               </div>
               <p className="rst-muted" style={{ fontSize: 13, margin: "0 0 14px", fontFamily: "var(--font-grotesque)" }}>
-                Fotografieren Sie das Werk aus mehreren Winkeln — Gesamtansicht, Details und sichtbare Schäden.
+                Fotografieren Sie das Objekt aus mehreren Winkeln — Gesamtansicht, Details und sichtbare Schäden.
               </p>
               <ImageUploader files={files} setFiles={setFiles} />
             </div>

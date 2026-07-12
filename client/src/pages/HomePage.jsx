@@ -40,13 +40,13 @@ const LOGOS = [
 const SERVICES = [
   { icon: "scan-line", title: "Begutachtung & Bildgebung", text: "Technische Untersuchung — UV-, Infrarot- und Streiflicht — zur Kartierung des Zustands und als Grundlage jeder Behandlung." },
   { icon: "brush", title: "Reinigung & Restaurierung", text: "Oberflächenreinigung, strukturelle Reparatur, Retusche und Neufirnis durch Fachrestauratoren." },
-  { icon: "frame", title: "Rahmung & Montierung", text: "Konservatorische Rahmung, Verglasung und archivfeste Montierungen, individuell auf jedes Werk abgestimmt." },
+  { icon: "frame", title: "Rahmung & Montierung", text: "Konservatorische Rahmung, Verglasung und archivfeste Montierungen, individuell auf jedes Objekt abgestimmt." },
   { icon: "shield-check", title: "Präventive Konservierung", text: "Klimauntersuchungen, Pflegekonzepte für Sammlungen und Zustandskontrolle über die Zeit." },
 ];
 
 const FAQ = [
   { q: "Wie lange dauert eine Behandlung?", a: "Die meisten Behandlungen dauern je nach Umfang und Zustand 4–12 Wochen." },
-  { q: "Holen Sie das Werk ab?", a: "Ja — versicherte Abholung und Rücklieferung sind innerhalb der Region inbegriffen." },
+  { q: "Holen Sie das Objekt ab?", a: "Ja — versicherte Abholung und Rücklieferung sind innerhalb der Region inbegriffen." },
   { q: "Erhalte ich eine Dokumentation?", a: "Jedes Projekt schließt mit einem vollständigen fotografischen Zustands- und Behandlungsbericht ab." },
 ];
 
@@ -194,11 +194,11 @@ function Services() {
 // Der komplette Ablauf als Karten-Carousel (dunkle Section). Reihenfolge/Texte
 // hier pflegen; Icons müssen im DS-Icon-Set existieren.
 const PROCESS = [
-  { icon: "upload", title: "Foto hochladen", text: "Laden Sie Fotos Ihres Werks aus mehreren Winkeln hoch — Schäden, Details und Gesamtzustand." },
+  { icon: "upload", title: "Foto hochladen", text: "Laden Sie Fotos Ihres Objekts aus mehreren Winkeln hoch — Schäden, Details und Gesamtzustand." },
   { icon: "search", title: "Durchsicht & Bewertung", text: "Unsere Experten prüfen Zustand und Anforderungen des Objekts sorgfältig." },
   { icon: "receipt", title: "Angebot", text: "Sie erhalten ein unverbindliches Angebot für die Restaurierung des Objekts." },
   { icon: "archive", title: "Versand zu uns", text: "Nach Freigabe senden Sie das Objekt versichert an unser Atelier." },
-  { icon: "brush", title: "Restaurierung", text: "Wir restaurieren Ihr Werk fachgerecht und gemäß dem vereinbarten Angebot." },
+  { icon: "brush", title: "Restaurierung", text: "Wir restaurieren Ihr Objekt fachgerecht und gemäß dem vereinbarten Angebot." },
   { icon: "file-text", title: "Dokumentation & Rückversand", text: "Vollständige Foto­dokumentation und sicherer Rückversand an Sie." },
 ];
 
@@ -359,7 +359,7 @@ function Featured() {
   return (
     <section id="atelier" className="rst-section">
       <SectionHead eyebrow="Aus der Werkstätte" title="Aktuelle Restaurierungen" />
-      <Carousel light label="Werk" items={WORKS} itemClass="rst-carousel__item--work" renderItem={(w, i) => (
+      <Carousel light label="Objekt" items={WORKS} itemClass="rst-carousel__item--work" renderItem={(w, i) => (
         <WorkCard
           title={w.title}
           artist={w.artist}
@@ -379,7 +379,7 @@ function ClosingCTA() {
       <div className="rst-cta__inner">
         <div>
           <Eyebrow tone="onDark">Beginnen</Eyebrow>
-          <h2>Ein Werk, das Pflege braucht?</h2>
+          <h2>Ein Objekt, das Pflege braucht?</h2>
           <p>Teilen Sie uns einige Details und Fotografien mit. Ein Restaurator meldet sich innerhalb von zwei Werktagen.</p>
           <ButtonLink as={Link} to="/anfrage" size="lg" variant="hero" endIcon={<Icon name="arrow-right" size={16} />}>Beratung anfragen</ButtonLink>
         </div>

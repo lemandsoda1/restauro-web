@@ -545,6 +545,13 @@ code, kbd, samp { font-family: var(--font-mono); font-size: 0.9em; }
 .rst-sechead__title{ font-family:var(--font-serif); font-size:44px; font-weight:600; line-height:1.08; color:var(--ink-900); margin:14px 0 0; }
 .rst-sechead__lead{ font-family:var(--font-serif); font-size:19px; line-height:1.55; color:var(--text-muted); margin:16px 0 0; }
 
+/* request-form header — homepage section-head motif, left aligned */
+.rst-reqhead{ margin-bottom:28px; }
+.rst-reqhead__rule{ display:block; width:38px; height:2px; border-radius:2px; background:var(--accent); margin-bottom:18px; }
+.rst-reqhead__eyebrow{ font-family:var(--font-mono); font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:var(--royal-600); }
+.rst-reqhead__title{ font-family:var(--font-serif); font-weight:600; font-size:clamp(30px,5vw,44px); line-height:1.05; letter-spacing:-0.015em; color:var(--ink-900); margin:14px 0 10px; text-wrap:balance; }
+.rst-reqhead__lede{ font-family:var(--font-serif); font-size:18px; line-height:1.55; color:var(--text-muted); max-width:52ch; margin:0; }
+
 /* ── Dark process carousel (headline + swipeable step cards) ── */
 .rst-show{ background:var(--ink-900); color:#fff; padding:96px 40px; }
 .rst-show__inner{ max-width:1200px; margin:0 auto; }

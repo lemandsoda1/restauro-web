@@ -40,8 +40,8 @@ export default function RequestDetailPage() {
     catch { /* ignore */ } finally { setResponding(false); }
   };
 
-  if (loading) return <Layout title="Werk"><div className="rst-center-load">Laden…</div></Layout>;
-  if (!data) return <Layout title="Werk"><div className="rst-center-load">Anfrage nicht gefunden.</div></Layout>;
+  if (loading) return <Layout title="Objekt"><div className="rst-center-load">Laden…</div></Layout>;
+  if (!data) return <Layout title="Objekt"><div className="rst-center-load">Anfrage nicht gefunden.</div></Layout>;
 
   const { request: req, images, offers } = data;
   const pendingOffer = offers.find((o) => o.status === "pending");
@@ -102,7 +102,7 @@ export default function RequestDetailPage() {
               <div>
                 <h3 style={{ fontFamily: "var(--font-serif)", fontSize: 24, fontWeight: 600, margin: "0 0 10px" }}>Beschreibung</h3>
                 <p className="rst-prose" style={{ maxWidth: "58ch" }}>
-                  {req.description || "Für dieses Werk wurde keine Beschreibung hinterlegt."}
+                  {req.description || "Für dieses Objekt wurde keine Beschreibung hinterlegt."}
                 </p>
               </div>
               <Card variant="elevated">

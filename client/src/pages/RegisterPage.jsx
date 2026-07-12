@@ -34,7 +34,7 @@ export default function RegisterPage() {
           Westermeier<br />Restaurierung
         </Link>
         <div>
-          <h2>Teilen Sie ein Werk, das <em>Pflege braucht</em></h2>
+          <h2>Teilen Sie ein Objekt, das <em>Pflege braucht</em></h2>
           <p>Erstellen Sie ein Konto, laden Sie Fotos hoch und erhalten Sie innerhalb von 48 Stunden ein unverbindliches Angebot.</p>
         </div>
         <div className="r-mono" style={{ fontSize: 11, letterSpacing: ".14em", color: "rgba(247,242,232,.5)", position: "relative" }}>
