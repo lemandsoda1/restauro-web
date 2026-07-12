@@ -208,21 +208,24 @@ function Carousel({ items, renderItem, light = false, itemClass = "", label = "E
   const trackRef = useRef(null);
   const [active, setActive] = useState(0);
 
+  // reference point = the track's content-left (past the full-bleed inline padding)
+  const contentLeft = (track) => track.getBoundingClientRect().left + parseFloat(getComputedStyle(track).paddingLeft || 0);
+
   const scrollToIndex = (i) => {
     const track = trackRef.current;
     const item = track && track.children[i];
     if (!track || !item) return;
-    const delta = item.getBoundingClientRect().left - track.getBoundingClientRect().left;
+    const delta = item.getBoundingClientRect().left - contentLeft(track);
     track.scrollTo({ left: track.scrollLeft + delta, behavior: "smooth" });
   };
 
   const onScroll = () => {
     const track = trackRef.current;
     if (!track) return;
-    const tl = track.getBoundingClientRect().left;
+    const ref = contentLeft(track);
     let best = 0, bestD = Infinity;
     Array.from(track.children).forEach((c, i) => {
-      const d = Math.abs(c.getBoundingClientRect().left - tl);
+      const d = Math.abs(c.getBoundingClientRect().left - ref);
       if (d < bestD) { bestD = d; best = i; }
     });
     setActive(best);
@@ -344,7 +347,7 @@ function SiteFooter() {
       <div className="rst-footer__grid">
         <div>
           <div className="rst-hero-wordmark">Westermeier<br />Restaurierung</div>
-          <p className="rst-footer__lede">Ein Atelier für die Restaurierung von Gemälden, Papier und Objekten.</p>
+          <p className="rst-footer__lede">Werkstätte für Kunstrestaurierung und Konservierung — Gemälde, Fresken, Papierarbeiten und Objekte.</p>
         </div>
         <div>
           <div className="rst-footer__col-h">Atelier</div>

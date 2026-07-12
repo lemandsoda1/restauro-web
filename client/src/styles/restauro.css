@@ -555,7 +555,11 @@ code, kbd, samp { font-family: var(--font-mono); font-size: 0.9em; }
 .rst-show__title em{ font-style:italic; font-weight:400; color:var(--accent); }
 
 .rst-carousel__track{ display:flex; gap:20px; overflow-x:auto; scroll-snap-type:x mandatory;
-  scroll-behavior:smooth; scrollbar-width:none; padding-bottom:14px; }
+  scroll-behavior:smooth; scrollbar-width:none; padding:0 56px 14px 0;
+  /* run the right edge out to the screen and fade there instead of a hard cut */
+  margin-right:calc(50% - 50vw);
+  -webkit-mask-image:linear-gradient(to right, #000 calc(100% - 56px), transparent 100%);
+          mask-image:linear-gradient(to right, #000 calc(100% - 56px), transparent 100%); }
 .rst-carousel__track::-webkit-scrollbar{ display:none; }
 .rst-carousel__item{ flex:0 0 300px; scroll-snap-align:start; }
 .rst-carousel__item--work{ flex-basis:320px; }
