@@ -320,7 +320,7 @@ function ClosingCTA() {
           <Eyebrow tone="onDark">Beginnen</Eyebrow>
           <h2>Ein Werk, das Pflege braucht?</h2>
           <p>Teilen Sie uns einige Details und Fotografien mit. Ein Restaurator meldet sich innerhalb von zwei Werktagen.</p>
-          <ButtonLink as={Link} to="/anfrage" size="lg" endIcon={<Icon name="arrow-right" size={16} />}>Beratung anfragen</ButtonLink>
+          <ButtonLink as={Link} to="/anfrage" size="lg" variant="hero" endIcon={<Icon name="arrow-right" size={16} />}>Beratung anfragen</ButtonLink>
         </div>
         <div className="rst-faq">
           {FAQ.map((it, i) => (
