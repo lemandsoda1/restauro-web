@@ -360,31 +360,6 @@ function ClosingCTA() {
   );
 }
 
-// Layout-Test „Wir empfehlen" — editorial-Liste, Titel/Text hier pflegen.
-const RECOMMEND = [
-  { title: "Serie: Material & Patina", text: "Eine kurze Einführung in die Materialien der Restaurierung — von Pigmenten über Bindemittel bis zur Alterung von Firnis." },
-  { title: "Klima im Atelier: ein Leitfaden", text: "Warum Temperatur und Luftfeuchte über Erfolg oder Schaden einer Behandlung entscheiden — und wie wir sie im Atelier steuern." },
-  { title: "Vom Befund zur Behandlung", text: "Wie aus einer technischen Untersuchung ein Restaurierungskonzept wird, Schritt für Schritt erklärt." },
-];
-
-function Recommend() {
-  return (
-    <section className="rst-section">
-      <div className="rst-recommend__head">
-        <span className="rst-recommend__eyebrow">Wir empfehlen</span>
-      </div>
-      <div>
-        {RECOMMEND.map((r, i) => (
-          <div key={i} className="rst-recommend__row">
-            <h3 className="rst-recommend__title">{r.title}</h3>
-            <p className="rst-recommend__text">{r.text}</p>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 export default function HomePage() {
   return (
     <div className="rst-site">
@@ -394,7 +369,6 @@ export default function HomePage() {
       <Process />
       <Featured />
       <ClosingCTA />
-      <Recommend />
       <SiteFooter />
     </div>
   );
