@@ -585,7 +585,7 @@ code, kbd, samp { font-family: var(--font-mono); font-size: 0.9em; }
 
 /* editorial row list: bold title + text, full-bleed hairlines (Leistungen, Process, References, ClosingCTA FAQ) */
 .rst-recommend__row{ padding:36px 0; border-bottom:1px solid var(--border);
-  display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start; }
+  display:grid; grid-template-columns:300px 1fr; gap:56px; align-items:start; }
 .rst-recommend__row:last-child{ border-bottom:none; }
 .rst-recommend__title{ font-family:var(--font-grotesque); font-weight:700; text-transform:uppercase;
   font-size:clamp(22px,2.6vw,32px); line-height:1.15; letter-spacing:-0.01em; color:var(--ink-900); margin:0; }
