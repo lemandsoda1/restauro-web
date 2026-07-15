@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import { ButtonLink, Eyebrow, WorkCard, Badge, Plate, Icon } from "../ds";
+import { ButtonLink, WorkCard, Badge, Plate, Icon } from "../ds";
 import SiteFooter from "../components/SiteFooter";
 import LogoMarquee from "../components/LogoMarquee";
 
@@ -273,7 +273,10 @@ function Process() {
         </div>
 
         <div className="rst-show__cta">
-          <ButtonLink as={Link} to="/anfrage" variant="hero" size="md">Angebot erhalten</ButtonLink>
+          <p className="rst-show__cta-lead">Bereit, Ihr Objekt in gute Hände zu geben?</p>
+          <ButtonLink as={Link} to="/anfrage" variant="accent" size="lg" endIcon={<Icon name="arrow-right" size={16} />}>
+            Angebot erhalten
+          </ButtonLink>
           <p className="rst-show__note">
             Für institutionelle Kunden — <a href="mailto:hallo@westermeier-restaurierung.de">nehmen Sie hier Kontakt mit uns auf</a>.
           </p>
@@ -321,25 +324,36 @@ function Featured() {
 }
 
 function ClosingCTA() {
-  const [open, setOpen] = useState(0);
+  const [open, setOpen] = useState(-1);
   return (
     <section id="kontakt" className="rst-cta">
       <div className="rst-cta__inner">
-        <div>
-          <Eyebrow tone="onDark">Beginnen</Eyebrow>
-          <h2>Ein Objekt, das Pflege braucht?</h2>
-          <p>Teilen Sie uns einige Details und Fotografien mit. Ein Restaurator meldet sich innerhalb von zwei Werktagen.</p>
-          <ButtonLink as={Link} to="/anfrage" size="lg" variant="hero" endIcon={<Icon name="arrow-right" size={16} />}>Beratung anfragen</ButtonLink>
-        </div>
-        <div className="rst-faq">
-          {FAQ.map((it, i) => (
-            <div key={i} className="rst-faq__item">
-              <button className="rst-faq__q" onClick={() => setOpen(open === i ? -1 : i)}>
-                {it.q}<Icon name={open === i ? "minus" : "plus"} size={18} />
-              </button>
-              {open === i ? <p className="rst-faq__a">{it.a}</p> : null}
+        <div className="rst-intro rst-intro--dark">
+          <div>
+            <span className="rst-intro__eyebrow">Beginnen</span>
+            <h2 className="rst-intro__title">Ein Objekt, das Pflege braucht?</h2>
+          </div>
+          <div className="rst-intro__text">
+            <p>Teilen Sie uns einige Details und Fotografien mit. Ein Restaurator meldet sich innerhalb von zwei Werktagen.</p>
+            <div>
+              <ButtonLink as={Link} to="/anfrage" size="lg" variant="hero" endIcon={<Icon name="arrow-right" size={16} />}>Beratung anfragen</ButtonLink>
             </div>
-          ))}
+          </div>
+        </div>
+
+        <div className="rst-recommend--dark" style={{ marginTop: 40 }}>
+          {FAQ.map((it, i) => {
+            const isOpen = open === i;
+            return (
+              <div key={i} className="rst-recommend__row rst-recommend__row--toggle" onClick={() => setOpen(isOpen ? -1 : i)}>
+                <h3 className="rst-recommend__title rst-recommend__title--toggle">
+                  {it.q}
+                  <Icon name={isOpen ? "minus" : "plus"} size={18} />
+                </h3>
+                {isOpen ? <p className="rst-recommend__text">{it.a}</p> : null}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
