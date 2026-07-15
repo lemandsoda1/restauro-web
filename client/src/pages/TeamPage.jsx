@@ -19,17 +19,33 @@ export default function TeamPage() {
       <SubHeader />
 
       <section className="rst-section">
-        <div className="rst-reqhead">
-          <span className="rst-reqhead__rule" aria-hidden="true" />
-          <span className="rst-reqhead__eyebrow">Das Atelier</span>
-          <h1 className="rst-reqhead__title">Die Hände hinter der Restaurierung</h1>
-          <p className="rst-reqhead__lede">
-            Ein kleines Team aus Fachrestauratoren — jede Disziplin in erfahrener Hand,
-            von der Begutachtung bis zur Rückgabe.
-          </p>
+        <div className="rst-intro">
+          <div>
+            <span className="rst-intro__eyebrow">Das Atelier</span>
+            <h1 className="rst-intro__title">Die Hände hinter der Restaurierung</h1>
+          </div>
+          <div className="rst-intro__text">
+            <p>
+              Hinter jedem restaurierten Objekt steht ein kleines Team aus Fachrestauratorinnen und
+              -restauratoren, das seine Disziplin über viele Jahre im Handwerk gelernt hat. Wandmalerei,
+              Gemälde, Papier und Objekt werden bei uns von jeweils eigenen Spezialistinnen betreut —
+              niemand behandelt ein Material, in dem er oder sie nicht ausgebildet ist.
+            </p>
+            <p>
+              Die Zusammenarbeit beginnt bei der ersten Begutachtung und endet erst mit der
+              dokumentierten Rückgabe. Dazwischen tauschen sich die Kolleginnen und Kollegen eng aus —
+              gerade bei Objekten, die mehrere Gewerke berühren, etwa ein gerahmtes Gemälde mit
+              vergoldetem Rahmen.
+            </p>
+            <p>
+              Ergänzt wird das Restauratoren-Team durch die Atelierleitung, die Logistik, Versicherung
+              und die Kommunikation mit unseren Kundinnen und Kunden koordiniert — damit sich die
+              Fachleute auf das konzentrieren können, was sie am besten können.
+            </p>
+          </div>
         </div>
 
-        <div className="rst-team">
+        <div className="rst-team" style={{ marginTop: 56 }}>
           {TEAM.map((m, i) => (
             <article className="rst-teamcard" key={i}>
               <Plate ratio="4/5" tone={i % 4} />

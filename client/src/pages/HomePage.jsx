@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { ButtonLink, Eyebrow, WorkCard, Badge, Plate, Icon } from "../ds";
 import SiteFooter from "../components/SiteFooter";
+import LogoMarquee from "../components/LogoMarquee";
 
 /* ============================================================================
  * SEITENINHALTE — hier direkt im Code pflegen.
@@ -23,26 +24,11 @@ function heroHeadline(text, emph) {
   return <>{text.slice(0, i)}<em>{emph}</em>{text.slice(i + emph.length)}</>;
 }
 
-// Logo-Carousel unter dem Hero. Jeder Eintrag ist entweder ein Bild
-// ({ name, src: "/logos/xyz.svg" }) oder — solange noch kein Bild da ist —
-// nur ein { name } (wird als Text-Wortmarke gezeigt). Bilder nach
-// client/public/logos/ legen und hier den src ergänzen.
-const LOGOS_EYEBROW = ""; // Text über dem Carousel; leer lassen = kein Text
-const LOGOS = [
-  { name: "Bayerische Schlösserverwaltung", src: "/logos/bayerische-schloesserverwaltung.png" },
-  { name: "Erzbistum Berlin", src: "/logos/erzbistum-berlin.png" },
-  { name: "Stiftung Fürst Liechtenstein", src: "/logos/stiftung-fuerst-liechtenstein.png" },
-  { name: "Bistum Regensburg", src: "/logos/bistum-regensburg.png" },
-  { name: "Kunsthistorisches Museum Wien", src: "/logos/kunsthistorisches-museum-wien.png" },
-  { name: "Staatliches Bauamt Rosenheim", src: "/logos/staatliches-bauamt-rosenheim.png" },
-  { name: "Erzdiözese München und Freising", src: "/logos/erzdioezese-muenchen-freising.png" },
-];
-
 const SERVICES = [
-  { icon: "scan-line", title: "Begutachtung & Bildgebung", text: "Technische Untersuchung — UV-, Infrarot- und Streiflicht — zur Kartierung des Zustands und als Grundlage jeder Behandlung." },
-  { icon: "brush", title: "Reinigung & Restaurierung", text: "Oberflächenreinigung, strukturelle Reparatur, Retusche und Neufirnis durch Fachrestauratoren." },
-  { icon: "frame", title: "Rahmung & Montierung", text: "Konservatorische Rahmung, Verglasung und archivfeste Montierungen, individuell auf jedes Objekt abgestimmt." },
-  { icon: "shield-check", title: "Präventive Konservierung", text: "Klimauntersuchungen, Pflegekonzepte für Sammlungen und Zustandskontrolle über die Zeit." },
+  { title: "Begutachtung & Bildgebung", text: "Technische Untersuchung — UV-, Infrarot- und Streiflicht — zur Kartierung des Zustands und als Grundlage jeder Behandlung." },
+  { title: "Reinigung & Restaurierung", text: "Oberflächenreinigung, strukturelle Reparatur, Retusche und Neufirnis durch Fachrestauratoren." },
+  { title: "Rahmung & Montierung", text: "Konservatorische Rahmung, Verglasung und archivfeste Montierungen, individuell auf jedes Objekt abgestimmt." },
+  { title: "Präventive Konservierung", text: "Klimauntersuchungen, Pflegekonzepte für Sammlungen und Zustandskontrolle über die Zeit." },
 ];
 
 const FAQ = [
@@ -70,14 +56,14 @@ function SiteHeader() {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  const links = [["Services", "#leistungen"], ["Referenzen", "#atelier"], ["Werkstätte", "#ablauf"]];
+  const links = [["Services", "#leistungen"], ["Werkstätte", "/werkstatt"], ["Referenzen", "/referenzen"]];
   const ctaVariant = scrolled ? "primary" : "hero";
   return (
     <header className={`rst-header rst-header--overlay ${scrolled ? "rst-header--scrolled" : "rst-header--hero"}`}>
       <div className="rst-header__bar">
         <Link to="/" className="rst-hero-wordmark">Westermeier<br />Restaurierung</Link>
         <nav className="rst-header__nav">
-          {links.map(([l, href]) => <a key={l} href={href}>{l}</a>)}
+          {links.map(([l, href]) => href.startsWith("#") ? <a key={l} href={href}>{l}</a> : <Link key={l} to={href}>{l}</Link>)}
         </nav>
         <div className="rst-header__actions">
           {user ? (
@@ -95,10 +81,12 @@ function SiteHeader() {
       </div>
       {menuOpen && (
         <div style={{ background: "var(--surface)", borderBottom: "1px solid var(--border)", padding: "8px 24px 16px" }}>
-          {links.map(([l, href]) => (
-            <a key={l} href={href} onClick={() => setMenuOpen(false)}
-              style={{ display: "block", padding: "10px 0", fontFamily: "var(--font-grotesque)", fontWeight: 500, color: "var(--stone-700)" }}>{l}</a>
-          ))}
+          {links.map(([l, href]) => {
+            const style = { display: "block", padding: "10px 0", fontFamily: "var(--font-grotesque)", fontWeight: 500, color: "var(--stone-700)" };
+            return href.startsWith("#")
+              ? <a key={l} href={href} onClick={() => setMenuOpen(false)} style={style}>{l}</a>
+              : <Link key={l} to={href} onClick={() => setMenuOpen(false)} style={style}>{l}</Link>;
+          })}
           <div style={{ display: "flex", gap: 12, marginTop: 8 }}>
             <ButtonLink as={Link} to="/login" variant="outline" size="sm" block>Anmelden</ButtonLink>
             <ButtonLink as={Link} to="/anfrage" size="sm" block>Angebot erhalten</ButtonLink>
@@ -130,71 +118,62 @@ function Hero() {
   );
 }
 
-/* Auto-scrolling, seamless logo carousel. The list is rendered twice so the
-   CSS marquee can loop without a visible seam; hover pauses it. */
-function LogoMarquee() {
-  if (!LOGOS.length) return null;
-  // Tile the set so one "half" is wide enough to fill the viewport, then
-  // render it twice so the -50% CSS loop is seamless regardless of count.
-  const reps = Math.max(2, Math.ceil(14 / LOGOS.length));
-  const half = Array.from({ length: reps }, () => LOGOS).flat();
-  const loop = [...half, ...half];
+function Services() {
+  const [open, setOpen] = useState(-1);
+  const toggle = (i) => setOpen((o) => (o === i ? -1 : i));
   return (
-    <section className="rst-logos" aria-label="Referenzen und Partner">
-      {LOGOS_EYEBROW ? <p className="rst-logos__eyebrow">{LOGOS_EYEBROW}</p> : null}
-      <div className="rst-logos__viewport">
-        <div className="rst-logos__track">
-          {loop.map((logo, i) => (
-            <div className="rst-logo" key={i} aria-hidden={i >= LOGOS.length}>
-              {logo.src
-                ? <img src={logo.src} alt={logo.name} loading="lazy" />
-                : <span className="rst-logo__text">{logo.name}</span>}
-            </div>
-          ))}
+    <section id="leistungen" className="rst-section" style={{ paddingBottom: 40 }}>
+      <div className="rst-intro">
+        <div>
+          <span className="rst-intro__eyebrow">Was wir tun</span>
+          <h2 className="rst-intro__title">Leistungen</h2>
+        </div>
+        <div className="rst-intro__text">
+          <p>
+            Von der ersten technischen Untersuchung bis zur präventiven Pflege einer ganzen Sammlung —
+            wir decken die vollständige Bandbreite der Kunstrestaurierung ab. Jede Behandlung beginnt
+            mit einer Bildgebung, die den Zustand des Objekts sichtbar macht, bevor eine einzige
+            Entscheidung getroffen wird.
+          </p>
+          <p>
+            Reinigung, Retusche, Rahmung und Montierung führen unsere Fachrestauratorinnen und
+            -restauratoren jeweils in ihrem eigenen Gewerk aus. So bleibt jede Leistung so spezialisiert,
+            wie es das Material verlangt.
+          </p>
+          <Plate ratio="16/9" tone={1} label="Atelier" />
         </div>
       </div>
-    </section>
-  );
-}
-
-/* Unified centered section header: gilt hairline · eyebrow · serif title. */
-function SectionHead({ eyebrow, title, lead }) {
-  return (
-    <div className="rst-sechead">
-      <span className="rst-sechead__rule" aria-hidden="true" />
-      <span className="rst-sechead__eyebrow">{eyebrow}</span>
-      <h2 className="rst-sechead__title">{title}</h2>
-      {lead ? <p className="rst-sechead__lead">{lead}</p> : null}
-    </div>
-  );
-}
-
-function Services() {
-  return (
-    <section id="leistungen" className="rst-section">
-      <SectionHead eyebrow="Was wir tun" title="Leistungen" />
-      <div className="rst-services">
-        {SERVICES.map((s, i) => (
-          <div key={i} className="rst-service">
-            <div className="rst-service__icon"><Icon name={s.icon || "sparkles"} size={22} /></div>
-            <h3>{s.title}</h3>
-            <p>{s.text}</p>
-          </div>
-        ))}
+      <div style={{ marginTop: 40 }}>
+        {SERVICES.map((s, i) => {
+          const isOpen = open === i;
+          return (
+            <div key={i} className="rst-recommend__row rst-recommend__row--toggle" onClick={() => toggle(i)}>
+              <h3 className="rst-recommend__title rst-recommend__title--toggle">
+                {s.title}
+                <Icon name={isOpen ? "minus" : "plus"} size={18} />
+              </h3>
+              {isOpen ? (
+                <div>
+                  <p className="rst-recommend__text">{s.text}</p>
+                  <Plate ratio="16/9" tone={i % 4} style={{ marginTop: 16 }} />
+                </div>
+              ) : null}
+            </div>
+          );
+        })}
       </div>
     </section>
   );
 }
 
-// Der komplette Ablauf als Karten-Carousel (dunkle Section). Reihenfolge/Texte
-// hier pflegen; Icons müssen im DS-Icon-Set existieren.
+// Der komplette Ablauf als Zeilen-Liste (dunkle Section). Reihenfolge/Texte hier pflegen.
 const PROCESS = [
-  { icon: "upload", title: "Foto hochladen", text: "Laden Sie Fotos Ihres Objekts aus mehreren Winkeln hoch — Schäden, Details und Gesamtzustand." },
-  { icon: "search", title: "Durchsicht & Bewertung", text: "Unsere Experten prüfen Zustand und Anforderungen des Objekts sorgfältig." },
-  { icon: "receipt", title: "Angebot", text: "Sie erhalten ein unverbindliches Angebot für die Restaurierung des Objekts." },
-  { icon: "archive", title: "Versand zu uns", text: "Nach Freigabe senden Sie das Objekt versichert an unser Atelier." },
-  { icon: "brush", title: "Restaurierung", text: "Wir restaurieren Ihr Objekt fachgerecht und gemäß dem vereinbarten Angebot." },
-  { icon: "file-text", title: "Dokumentation & Rückversand", text: "Vollständige Foto­dokumentation und sicherer Rückversand an Sie." },
+  { title: "Foto hochladen", text: "Laden Sie Fotos Ihres Objekts aus mehreren Winkeln hoch — Schäden, Details und Gesamtzustand." },
+  { title: "Durchsicht & Bewertung", text: "Unsere Experten prüfen Zustand und Anforderungen des Objekts sorgfältig." },
+  { title: "Angebot", text: "Sie erhalten ein unverbindliches Angebot für die Restaurierung des Objekts." },
+  { title: "Versand zu uns", text: "Nach Freigabe senden Sie das Objekt versichert an unser Atelier." },
+  { title: "Restaurierung", text: "Wir restaurieren Ihr Objekt fachgerecht und gemäß dem vereinbarten Angebot." },
+  { title: "Dokumentation & Rückversand", text: "Vollständige Foto­dokumentation und sicherer Rückversand an Sie." },
 ];
 
 /* Reusable card carousel: scroll-snap track + prev/next arrows + progress dots.
@@ -263,75 +242,34 @@ function Carousel({ items, renderItem, light = false, itemClass = "", label = "E
   );
 }
 
-/* The process as a stacked card deck: cards piled with an organic offset; the
-   top card flips away when you advance. Tap the top card, use the arrows or dots. */
-// Per-card jitter (deg / px) so the pile looks hand-stacked, not machine-uniform.
-const DECK_ROT = [0, -2.6, 2.1, -1.5, 2.5, -1.9];
-const DECK_DX = [0, 8, -7, 6, -9, 5];
-
-function ProcessCarousel() {
-  const [active, setActive] = useState(0);
-  const n = PROCESS.length;
-  const go = (i) => setActive(Math.max(0, Math.min(n - 1, i)));
-
-  const cardStyle = (i) => {
-    const pos = i - active;
-    if (pos < 0) {
-      // flipped away, off the top of the pile
-      return { transform: "translateY(-46%) rotateX(40deg) rotateZ(-4deg) scale(.96)", opacity: 0, zIndex: 60 + i, pointerEvents: "none" };
-    }
-    if (pos === 0) {
-      return { transform: "translateY(0) rotate(0deg) scale(1)", opacity: 1, zIndex: 50 };
-    }
-    const d = Math.min(pos, 4);
-    return {
-      transform: `translateY(${d * 13}px) translateX(${DECK_DX[i % DECK_DX.length]}px) rotate(${DECK_ROT[i % DECK_ROT.length]}deg) scale(${(1 - d * 0.05).toFixed(3)})`,
-      opacity: pos <= 3 ? 1 : 0,
-      zIndex: 50 - pos,
-      pointerEvents: "none",
-    };
-  };
-
+function Process() {
   return (
     <section className="rst-show" id="ablauf" aria-label="Ablauf in sechs Schritten">
-      <div className="rst-show__inner">
-        <div className="rst-show__head">
-          <span className="rst-show__eyebrow">So funktioniert es</span>
-          <h2 className="rst-show__title">In drei Schritten zum <em>Angebot</em></h2>
+      <div className="rst-show__inner" style={{ paddingTop: 56 }}>
+        <div className="rst-intro rst-intro--dark">
+          <div>
+            <span className="rst-intro__eyebrow">So funktioniert es</span>
+            <h2 className="rst-intro__title">In drei Schritten zum <em>Angebot</em></h2>
+          </div>
+          <div className="rst-intro__text">
+            <p>
+              Vom ersten Foto bis zur Rückgabe begleiten wir Sie durch einen klar strukturierten
+              Ablauf. Nach der Zusage übernehmen wir Versand, Restaurierung und eine vollständige
+              Dokumentation — Sie müssen sich um nichts weiter kümmern.
+            </p>
+          </div>
         </div>
 
-        <div className="rst-deck">
+        <div className="rst-recommend--dark" style={{ marginTop: 24 }}>
           {PROCESS.map((p, i) => (
-            <article
-              className="rst-deck__card rst-proc-card"
-              key={i}
-              style={cardStyle(i)}
-              aria-hidden={i === active ? "false" : "true"}
-              onClick={i === active ? () => go(active + 1) : undefined}
-            >
-              <div className="rst-proc-card__icon"><Icon name={p.icon} size={22} /></div>
-              <div className="rst-proc-card__step">{i < 3 ? `Schritt ${i + 1}` : "Nach Zusage"}</div>
-              <h3 className="rst-proc-card__title">{p.title}</h3>
-              <p className="rst-proc-card__text">{p.text}</p>
-            </article>
+            <div className="rst-recommend__row" key={i}>
+              <div>
+                <span className="rst-refhero__eyebrow">{`Schritt ${i + 1}`}</span>
+                <h3 className="rst-recommend__title" style={{ marginTop: 10 }}>{p.title}</h3>
+              </div>
+              <p className="rst-recommend__text">{p.text}</p>
+            </div>
           ))}
-        </div>
-
-        <div className="rst-carousel__controls">
-          <div className="rst-carousel__dots">
-            {PROCESS.map((_, i) => (
-              <button key={i} className={`rst-dot${i === active ? " rst-dot--active" : ""}`}
-                aria-label={`Zu Schritt ${i + 1}`} onClick={() => go(i)} />
-            ))}
-          </div>
-          <div className="rst-carousel__arrows">
-            <button className="rst-arrow" aria-label="Zurück" disabled={active === 0} onClick={() => go(active - 1)}>
-              <Icon name="arrow-left" size={18} />
-            </button>
-            <button className="rst-arrow" aria-label="Weiter" disabled={active === n - 1} onClick={() => go(active + 1)}>
-              <Icon name="arrow-right" size={18} />
-            </button>
-          </div>
         </div>
 
         <div className="rst-show__cta">
@@ -356,7 +294,19 @@ function workBadge(label) {
 function Featured() {
   return (
     <section id="atelier" className="rst-section">
-      <SectionHead eyebrow="Aus der Werkstätte" title="Aktuelle Restaurierungen" />
+      <div className="rst-intro" style={{ marginBottom: 40 }}>
+        <div>
+          <span className="rst-intro__eyebrow">Aus der Werkstätte</span>
+          <h2 className="rst-intro__title">Aktuelle Restaurierungen</h2>
+        </div>
+        <div className="rst-intro__text">
+          <p>
+            Ein Ausschnitt aus laufenden und kürzlich abgeschlossenen Projekten — vom barocken
+            Ölgemälde bis zum vergoldeten Konsolentisch. Jedes Objekt durchläuft bei uns dieselbe
+            sorgfältige Bearbeitung, unabhängig von Größe oder Wert.
+          </p>
+        </div>
+      </div>
       <Carousel light label="Objekt" items={WORKS} itemClass="rst-carousel__item--work" renderItem={(w, i) => (
         <WorkCard
           title={w.title}
@@ -396,15 +346,41 @@ function ClosingCTA() {
   );
 }
 
+// Layout-Test „Wir empfehlen" — editorial-Liste, Titel/Text hier pflegen.
+const RECOMMEND = [
+  { title: "Serie: Material & Patina", text: "Eine kurze Einführung in die Materialien der Restaurierung — von Pigmenten über Bindemittel bis zur Alterung von Firnis." },
+  { title: "Klima im Atelier: ein Leitfaden", text: "Warum Temperatur und Luftfeuchte über Erfolg oder Schaden einer Behandlung entscheiden — und wie wir sie im Atelier steuern." },
+  { title: "Vom Befund zur Behandlung", text: "Wie aus einer technischen Untersuchung ein Restaurierungskonzept wird, Schritt für Schritt erklärt." },
+];
+
+function Recommend() {
+  return (
+    <section className="rst-section">
+      <div className="rst-recommend__head">
+        <span className="rst-recommend__eyebrow">Wir empfehlen</span>
+      </div>
+      <div>
+        {RECOMMEND.map((r, i) => (
+          <div key={i} className="rst-recommend__row">
+            <h3 className="rst-recommend__title">{r.title}</h3>
+            <p className="rst-recommend__text">{r.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export default function HomePage() {
   return (
     <div className="rst-site">
       <SiteHeader />
       <Hero />
       <Services />
-      <ProcessCarousel />
+      <Process />
       <Featured />
       <ClosingCTA />
+      <Recommend />
       <SiteFooter />
     </div>
   );

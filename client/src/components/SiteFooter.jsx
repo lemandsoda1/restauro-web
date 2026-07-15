@@ -21,8 +21,8 @@ export default function SiteFooter() {
           <div className="rst-footer__links">
             <a href="/#leistungen">Leistungen</a>
             <Link to="/team">Das Team</Link>
-            <a href="/#ablauf">Ablauf</a>
-            <a href="/#atelier">Referenzen</a>
+            <Link to="/werkstatt">Die Werkstätte</Link>
+            <Link to="/referenzen">Referenzen</Link>
           </div>
         </div>
         <div>
