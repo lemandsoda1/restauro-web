@@ -1,5 +1,4 @@
-import SubHeader from "../components/SubHeader";
-import SiteFooter from "../components/SiteFooter";
+import { SubHeader, SiteFooter } from "../components/SiteChrome";
 import { ButtonLink, Plate, Icon } from "../ds";
 import { Link } from "react-router-dom";
 
@@ -10,17 +9,17 @@ import { Link } from "react-router-dom";
  * ==========================================================================*/
 const GALLERY = [
   { label: "Der Werkraum", tone: 0, big: true },
-  { label: "Lichttisch & Bildgebung", tone: 1 },
-  { label: "Pigmente & Bindemittel", tone: 2 },
+  { label: "Arbeitstisch & Bildgebung", tone: 1 },
+  { label: "Kitt, Pigmente & Retusche", tone: 2 },
   { label: "Vergoldung", tone: 3 },
   { label: "Klimatisiertes Depot", tone: 1 },
 ];
 
 const FEATURES = [
-  { icon: "scan-line", title: "Technische Ausstattung", text: "UV-, Infrarot- und Streiflicht-Untersuchung sowie ein eigener Lichttisch für die Detailarbeit an Papier und Gemälden." },
-  { icon: "sliders-horizontal", title: "Klimatisierte Räume", text: "Temperatur und Luftfeuchte werden in Werk- und Lagerräumen konstant gehalten — entscheidend für empfindliche Materialien." },
-  { icon: "shield-check", title: "Sicherheit & Versicherung", text: "Videoüberwachtes Atelier, versicherte Lagerung und ein dokumentierter Übergabeprozess für jedes Objekt." },
-  { icon: "brush", title: "Werkbänke nach Gewerk", text: "Getrennte Arbeitsbereiche für Gemälde, Papier, Rahmen und Objekte — jede mit eigenem Werkzeug und Materiallager." },
+  { title: "Technische Ausstattung", text: "UV-, Infrarot- und Streiflicht-Untersuchung sowie ein eigener Arbeitstisch mit Lupenleuchte für die Detailarbeit an Porzellan und feinen Objekten." },
+  { title: "Klimatisierte Räume", text: "Temperatur und Luftfeuchte werden in Werk- und Lagerräumen konstant gehalten — entscheidend für empfindliche Materialien." },
+  { title: "Sicherheit & Versicherung", text: "Videoüberwachtes Atelier, versicherte Lagerung und ein dokumentierter Übergabeprozess für jedes Objekt." },
+  { title: "Werkbänke nach Gewerk", text: "Getrennte Arbeitsbereiche für Porzellan und Keramik, Holz und Vergoldung sowie Skulptur — jede mit eigenem Werkzeug und Materiallager." },
 ];
 
 const FACTS = [
@@ -48,16 +47,16 @@ export default function WerkstattPage() {
               Bestandsaufnahme, bevor überhaupt ein erster Handgriff erfolgt.
             </p>
             <p>
-              Die Räume sind bewusst nach Gewerk getrennt: Wandmalerei, Gemälde, Papier und Objekt
-              haben jeweils eigene Arbeitsbereiche, eigenes Werkzeug und eigene klimatische
-              Anforderungen. So entsteht Raum für Konzentration, ohne dass sich die Materialien und
-              Prozesse der einzelnen Disziplinen gegenseitig stören.
+              Die Räume sind bewusst nach Gewerk getrennt: Porzellan und Keramik, Holz und Vergoldung
+              sowie Skulptur haben jeweils eigene Arbeitsbereiche, eigenes Werkzeug und eigene
+              klimatische Anforderungen. So entsteht Raum für Konzentration, ohne dass sich die
+              Materialien und Prozesse der einzelnen Disziplinen gegenseitig stören.
             </p>
             <p>
               Museen, Stiftungen und private Sammler vertrauen uns ihre wertvollsten Objekte an, weil
               jede Entscheidung dokumentiert und nachvollziehbar bleibt. Von der ersten Fotografie bis
               zur Rückgabe begleiten wir jedes Projekt mit dem gleichen Maß an Sorgfalt — unabhängig
-              davon, ob es sich um ein Deckenfresko oder eine kleine Rötelzeichnung handelt.
+              davon, ob es sich um eine große Prunkvase oder eine kleine Porzellanfigur handelt.
             </p>
           </div>
         </div>
@@ -69,12 +68,11 @@ export default function WerkstattPage() {
           ))}
         </div>
 
-        <div className="rst-services" style={{ marginTop: 64 }}>
+        <div style={{ marginTop: 8 }}>
           {FEATURES.map((f, i) => (
-            <div key={i} className="rst-service">
-              <div className="rst-service__icon"><Icon name={f.icon} size={22} /></div>
-              <h3>{f.title}</h3>
-              <p>{f.text}</p>
+            <div key={i} className="rst-recommend__row">
+              <h3 className="rst-recommend__title">{f.title}</h3>
+              <p className="rst-recommend__text">{f.text}</p>
             </div>
           ))}
         </div>

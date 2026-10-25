@@ -1,5 +1,4 @@
-import SubHeader from "../components/SubHeader";
-import SiteFooter from "../components/SiteFooter";
+import { SubHeader, SiteFooter } from "../components/SiteChrome";
 import LogoMarquee from "../components/LogoMarquee";
 import { Plate, ButtonLink, Icon } from "../ds";
 
@@ -10,19 +9,19 @@ import { Plate, ButtonLink, Icon } from "../ds";
  * ==========================================================================*/
 const CASES = [
   {
-    tag: "Wandmalerei",
+    tag: "Porzellan",
     institution: "Bayerische Schlösserverwaltung",
-    title: "Deckenfresko im Sommerrefektorium",
-    text: "Barockes Deckenfresko mit großflächigen Wasserschäden und gelösten Putzschichten. Konsolidierung des Untergrunds, Kittung fehlender Partien und behutsame Retusche nach Befund.",
-    result: "vollständig gesichert, Fassung dokumentiert",
+    title: "Prunkvase mit Goldstaffage, 18. Jh.",
+    text: "Mehrfach gebrochene Vase mit alten, vergilbten Klebungen und Fehlstellen an Henkel und Fuß. Abnahme der früheren Verklebung, Neuverklebung, Ergänzung der Fehlstellen und behutsame Retusche nach Befund.",
+    result: "Bruchstellen kaum sichtbar, Zustand dokumentiert",
     tone: 0,
   },
   {
-    tag: "Gemälde",
+    tag: "Keramik",
     institution: "Kunsthistorisches Museum Wien",
-    title: "Ölgemälde niederländischer Schule, 17. Jh.",
-    text: "Vergilbter Firnis und alte, unsachgemäße Retuschen verdeckten die originale Farbigkeit. Firnisabnahme, Doublierung des Leinwandträgers und Neurestaurierung nach konservatorischem Befund.",
-    result: "Originalfarbigkeit freigelegt",
+    title: "Fayence-Platte, 17. Jh.",
+    text: "Zerscherbte Platte mit überfassten, späteren Ergänzungen, die die originale Bemalung verdeckten. Abnahme der Übermalungen, Neuverklebung der Scherben und farblich angepasste Ergänzung der Fehlstellen.",
+    result: "Originaloberfläche freigelegt",
     tone: 1,
   },
   {
@@ -80,7 +79,7 @@ export default function ReferencesPage() {
           <div className="rst-intro__text">
             <p>
               Die folgende Auswahl zeigt abgeschlossene Restaurierungen für Museen, Stiftungen und
-              private Sammler — von der großflächigen Wandmalerei bis zur kleinen, gefassten Skulptur.
+              private Sammler — von der großen Prunkvase bis zur kleinen, gefassten Skulptur.
               Jedes Projekt ist unterschiedlich, doch der Ablauf folgt immer demselben Prinzip: erst der
               technische Befund, dann das Konzept, erst danach die eigentliche Behandlung.
             </p>

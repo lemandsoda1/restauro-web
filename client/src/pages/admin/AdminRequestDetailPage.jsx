@@ -120,7 +120,7 @@ export default function AdminRequestDetailPage() {
                 <h3 style={{ fontFamily: "var(--font-serif)", fontSize: 20, fontWeight: 600, margin: "0 0 12px" }}>Zustandsbeurteilung</h3>
                 <Textarea label="Notizen zum Zustand & geplante Maßnahmen" rows={6} value={assessment}
                   onChange={(e) => setAssessment(e.target.value)}
-                  placeholder="z. B. Oberflächenschmutz und vergilbter Firnis, feine Craquelé im Himmel. Vorgeschlagen: schonende Reinigung, Firnisabnahme, Konsolidierung, Neufirnis." />
+                  placeholder="z. B. Henkel abgebrochen, alte vergilbte Klebung, Fehlstelle am Fuß. Vorgeschlagen: Abnahme der alten Klebung, Neuverklebung, Ergänzung und Retusche." />
                 <p className="rst-muted" style={{ fontSize: 12.5, marginTop: 8, fontFamily: "var(--font-grotesque)" }}>
                   Diese Notiz wird als Vorlage in die Angebotsbeschreibung übernommen.
                 </p>

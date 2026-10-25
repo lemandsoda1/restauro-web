@@ -36,6 +36,7 @@ export default function App() {
       <Route path="/team" element={<TeamPage />} />
       <Route path="/werkstatt" element={<WerkstattPage />} />
       <Route path="/referenzen" element={<ReferencesPage />} />
+      <Route path="/entwurf" element={<Navigate to="/" replace />} />
       <Route
         path="/login"
         element={user ? <Navigate to={user.role === "admin" ? "/admin" : "/dashboard"} /> : <LoginPage />}

@@ -1,0 +1,194 @@
+/* ============================================================
+   Seiten-Stil der Webseite (Florentine-inspiriert) — "tpl-" ist nur
+   das Namenspräfix dieser Schicht. Startseite = .tpl; Header und Footer
+   (auch auf Werkstätte/Team/Referenzen/Impressum) tragen .tpl-scope und
+   bekommen so dieselben Tokens. Gestaltungsentscheidungen stecken in
+   den Tokens unten: Farbe, Schriften, Raster und Typo-Skala hier ändern.
+   ============================================================ */
+
+.tpl, .tpl-scope {
+  /* ---- Farbe (Entscheidung: Navy behalten oder warmes Fast-Schwarz #381409) */
+  --tpl-bg: #F4F4F4;
+  --tpl-ink: #0C1638;
+  --tpl-ink-soft: rgba(12, 22, 56, .62);
+  --tpl-line: rgba(12, 22, 56, .16);
+  --tpl-on-media: #F4F4F4;
+  --tpl-ph-a: #E7E3DC;            /* Bild-Platzhalter */
+  --tpl-ph-b: #D6CFC3;
+
+  /* ---- Schriften: eine Grotesk (nur 400) + Serif-Kursive als Akzent */
+  --tpl-sans: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --tpl-serif: "Cormorant Garamond", Georgia, serif;
+
+  /* ---- Raster: 3 Spalten, enge Ränder */
+  --tpl-gutter: 12px;
+  --tpl-gap: 10px;
+  --tpl-radius: 5px;
+
+  /* ---- Typo-Skala, wächst mit der Fensterbreite (Messwerte bei 1440px) */
+  --tpl-fs-statement: clamp(25px, 1.92vw, 40px);
+  --tpl-fs-lead: clamp(20px, 1.56vw, 32px);
+  --tpl-fs-body: 16px;
+  --tpl-fs-caption: clamp(13px, .99vw, 18px);
+  --tpl-fs-button: clamp(12px, .83vw, 15px);
+  --tpl-fs-label: clamp(10px, .67vw, 13px);
+  --tpl-track: -0.015em;
+
+  /* ---- Abstände zwischen Abschnitten */
+  --tpl-space-s: clamp(32px, 3.5vw, 56px);
+  --tpl-space-m: clamp(56px, 6vw, 110px);
+
+  color: var(--tpl-ink);
+  font-family: var(--tpl-sans);
+  font-size: var(--tpl-fs-body);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: var(--tpl-track);
+}
+.tpl { min-height: 100vh; background: var(--tpl-bg); }
+#leistungen { scroll-margin-top: 70px; }
+
+/* Basis-Stile der Live-Seite (Serif-Absätze, fette Überschriften) neutralisieren */
+.tpl :where(h1, h2, h3, h4, p, ul, figure, figcaption),
+.tpl-scope :where(h1, h2, h3, h4, p, ul, figure, figcaption) {
+  margin: 0; padding: 0; font: inherit; color: inherit; letter-spacing: inherit;
+  text-transform: none; hyphens: manual; -webkit-hyphens: manual;
+}
+.tpl ul, .tpl-scope ul { list-style: none; }
+.tpl a, .tpl-scope a { color: inherit; text-decoration: none; }
+.tpl a:hover, .tpl-scope a:hover { color: inherit; text-decoration: none; }
+
+/* Serif-Kursive als Akzent mitten im Satz (Cormorant hat eine kleine x-Höhe → etwas größer) */
+.tpl em, .tpl-scope em { font-family: var(--tpl-serif); font-style: italic; font-weight: 400; font-size: 1.12em; letter-spacing: -0.005em; }
+
+/* ---- Raster ------------------------------------------------- */
+.tpl-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  column-gap: var(--tpl-gap); row-gap: var(--tpl-gap);
+  padding: 0 var(--tpl-gutter);
+}
+.tpl-col-1 { grid-column: 1 / 2; }
+.tpl-col-2-end { grid-column: 2 / 4; }
+.tpl-col-all { grid-column: 1 / -1; }
+
+/* ---- Kleine Bausteine -------------------------------------- */
+.tpl-label { font-size: var(--tpl-fs-label); text-transform: uppercase; letter-spacing: .02em; line-height: 1; }
+.tpl-btn {
+  display: inline-flex; align-items: center; height: 29px; padding: 0 20px;
+  border: 1px solid currentColor; border-radius: 12px;
+  font-size: var(--tpl-fs-button); line-height: 1; white-space: nowrap;
+  transition: background-color .2s ease, color .2s ease;
+}
+.tpl-btn:hover { background: var(--tpl-ink); color: var(--tpl-bg); border-color: var(--tpl-ink); }
+.tpl-btn--light { color: var(--tpl-on-media); }
+.tpl-btn--light:hover { background: var(--tpl-on-media); color: var(--tpl-ink); border-color: var(--tpl-on-media); }
+
+/* ---- Header ------------------------------------------------ */
+.tpl-header {
+  position: fixed; inset: 0 0 auto 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  padding: 14px calc(var(--tpl-gutter) + 2px);
+  color: var(--tpl-on-media); transition: background-color .3s ease, color .3s ease;
+}
+.tpl-header-spacer { height: 58px; }
+.tpl-header--solid { background: var(--tpl-bg); color: var(--tpl-ink); }
+.tpl-header__mark { font-size: var(--tpl-fs-label); text-transform: uppercase; letter-spacing: .02em; }
+.tpl-header__right { display: flex; align-items: center; gap: clamp(20px, 2.4vw, 40px); }
+.tpl-header__nav { display: flex; gap: 6px; font-size: var(--tpl-fs-body); }
+.tpl-header__nav a, .tpl-header__nav button { padding: 4px 2px; }
+.tpl-header__nav a:hover { opacity: .6; }
+.tpl-header__actions { display: flex; align-items: center; gap: 16px; font-size: 13px; }
+.tpl-header__menu { display: none; background: none; border: 0; color: inherit; font: inherit; cursor: pointer; }
+
+/* ---- Hero -------------------------------------------------- */
+.tpl-hero { position: relative; height: 100vh; min-height: 560px; overflow: hidden; color: var(--tpl-on-media); }
+.tpl-hero__media { position: absolute; inset: 0; }
+.tpl-hero__media img { width: 100%; height: 100%; object-fit: cover; }
+.tpl-hero__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.25) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,.35) 100%); }
+.tpl-hero__content { position: absolute; inset: auto 0 18vh 0; }
+.tpl-hero__text { grid-column: 3 / 4; display: flex; flex-direction: column; align-items: flex-start; gap: 22px; }
+.tpl-hero__text p { font-size: var(--tpl-fs-lead); line-height: 1.1; max-width: 22ch; }
+
+/* ---- Medien (Bild oder Platzhalter) ------------------------ */
+.tpl-media { position: relative; overflow: hidden; border-radius: var(--tpl-radius); background: var(--tpl-ph-a); }
+.tpl-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tpl-media__ph {
+  width: 100%; height: 100%; display: flex; align-items: flex-end; padding: 12px;
+  background: linear-gradient(160deg, var(--tpl-ph-a), var(--tpl-ph-b));
+  font-size: var(--tpl-fs-label); text-transform: uppercase; letter-spacing: .02em; color: var(--tpl-ink-soft);
+}
+.tpl-tile { display: flex; flex-direction: column; gap: 8px; }
+.tpl-tile .tpl-media { aspect-ratio: 3 / 4; }
+.tpl-caption { font-size: var(--tpl-fs-caption); line-height: 1.1; }
+.tpl-caption em { font-size: 1.08em; }
+
+/* ---- Abschnitte -------------------------------------------- */
+.tpl-section { padding-top: var(--tpl-space-m); }
+.tpl-section--tight { padding-top: var(--tpl-space-s); }
+.tpl-statement { display: flex; flex-direction: column; align-items: flex-start; gap: 22px; }
+.tpl-statement p { font-size: var(--tpl-fs-statement); line-height: 1; max-width: 29em; text-wrap: pretty; }
+
+/* Volle Breite: Bild/Video mit Text unten links */
+.tpl-feature { position: relative; width: 100%; height: min(92vh, 62vw); color: var(--tpl-on-media); }
+.tpl-feature .tpl-media { position: absolute; inset: 0; }
+.tpl-feature__overlay {
+  position: absolute; inset: auto auto 0 0; padding: clamp(20px, 2.2vw, 36px);
+  display: flex; flex-direction: column; align-items: flex-start; gap: 14px; max-width: min(460px, 85%);
+}
+.tpl-feature__overlay p { font-size: var(--tpl-fs-lead); line-height: 1.1; }
+.tpl-feature--ph { color: var(--tpl-ink); }
+.tpl-feature .tpl-media__ph { align-items: flex-start; }
+
+.tpl-statement--after { margin-top: var(--tpl-space-s); }
+.tpl-statement--before { margin-bottom: var(--tpl-space-s); }
+
+/* Zeilen-Liste (Leistungen, Ablauf): Label Spalte 1, Zeilen in Spalte 2–3 */
+.tpl-rows__label { padding-top: 22px; }
+.tpl-rows { border-top: 1px solid var(--tpl-line); }
+.tpl-row { display: grid; grid-template-columns: 1fr 2fr; column-gap: var(--tpl-gap); padding: 18px 0 22px; border-bottom: 1px solid var(--tpl-line); }
+.tpl-row__title { font-size: var(--tpl-fs-lead); line-height: 1.1; }
+.tpl-row__text { font-size: var(--tpl-fs-body); line-height: 1.3; color: var(--tpl-ink-soft); max-width: 60ch; }
+.tpl-row__index { display: block; font-size: var(--tpl-fs-label); text-transform: uppercase; letter-spacing: .02em; margin-bottom: 8px; color: var(--tpl-ink-soft); }
+
+/* Presse / Partner: kurzer Satz + statische Logo-Reihe */
+.tpl-press { align-items: center; }
+.tpl-press__lead { font-size: 13px; line-height: 1.25; max-width: 32ch; }
+.tpl-press__logos { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 28px; }
+.tpl-press__logos img { height: clamp(28px, 2.6vw, 44px); width: auto; object-fit: contain; filter: grayscale(1); opacity: .7; }
+
+/* ---- Footer ------------------------------------------------ */
+.tpl-footer { padding-top: var(--tpl-space-m); padding-bottom: 24px; }
+.tpl-footer__cta { display: flex; flex-direction: column; gap: 28px; }
+.tpl-footer__cta p { font-size: var(--tpl-fs-statement); line-height: 1; max-width: 26em; }
+.tpl-footer__line {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 10px 0; border-bottom: 1px solid var(--tpl-ink);
+  font-size: var(--tpl-fs-lead); color: var(--tpl-ink-soft); transition: color .2s ease;
+}
+.tpl-footer__line:hover { color: var(--tpl-ink); }
+.tpl-footer__cols { margin-top: var(--tpl-space-m); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px var(--tpl-gap); font-size: 13px; line-height: 1.35; }
+.tpl-footer__cols h4 { font-size: 11px; text-transform: uppercase; letter-spacing: .02em; margin-bottom: 10px; }
+.tpl-footer__cols a:hover { opacity: .6; }
+.tpl-footer__bar { margin-top: 48px; display: flex; justify-content: space-between; font-size: 11px; color: var(--tpl-ink-soft); }
+
+/* ---- Mobil -------------------------------------------------- */
+@media (max-width: 800px) {
+  .tpl-grid { grid-template-columns: 1fr 1fr; }
+  .tpl-col-1, .tpl-col-2-end, .tpl-hero__text { grid-column: 1 / -1; }
+  .tpl-header__nav { display: none; }
+  .tpl-header__menu { display: inline; }
+  .tpl-header--open .tpl-header__nav {
+    display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0;
+    padding: 12px var(--tpl-gutter) 20px; background: var(--tpl-bg); color: var(--tpl-ink); font-size: 22px;
+  }
+  .tpl-header__login { display: none; }
+  .tpl-hero__content { bottom: 12vh; }
+  .tpl-feature { height: min(120vw, 90vh); }
+  .tpl-row { grid-template-columns: 1fr; row-gap: 8px; }
+  .tpl-rows__label { padding-top: 0; }
+  .tpl-press__logos { justify-content: flex-start; }
+  .tpl-footer__cols { grid-template-columns: 1fr 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tpl-header, .tpl-btn, .tpl-footer__line { transition: none; }
+}

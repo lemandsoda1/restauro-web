@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { SubHeader, SiteFooter } from "../components/SiteChrome";
 
 /* Impressum / Datenschutz — Inhalte hier direkt im Code pflegen. */
 const CONTACT = {
@@ -11,14 +11,7 @@ export default function ImpressumPage() {
   const c = CONTACT;
   return (
     <div className="rst-site">
-      <header className="rst-header rst-header--scrolled">
-        <div className="rst-header__bar">
-          <Link to="/" className="rst-hero-wordmark">Westermeier<br />Restaurierung</Link>
-          <div className="rst-header__actions">
-            <Link to="/" className="rst-header__signin">Zurück zur Startseite</Link>
-          </div>
-        </div>
-      </header>
+      <SubHeader />
 
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "56px 24px 96px" }}>
         <h1 style={{ fontFamily: "var(--font-serif)", fontSize: 40, fontWeight: 600, color: "var(--ink-900)", margin: "0 0 24px" }}>
@@ -37,6 +30,7 @@ export default function ImpressumPage() {
           </p>
         </div>
       </div>
+      <SiteFooter />
     </div>
   );
 }

@@ -1,5 +1,4 @@
-import SubHeader from "../components/SubHeader";
-import SiteFooter from "../components/SiteFooter";
+import { SubHeader, SiteFooter } from "../components/SiteChrome";
 import { Plate } from "../ds";
 
 /* ============================================================================
@@ -7,8 +6,8 @@ import { Plate } from "../ds";
  * client/public/team/ ablegen und statt der Platte ein <img> einsetzen.
  * ==========================================================================*/
 const TEAM = [
-  { name: "Name Nachname", role: "Gründer & Restaurator", bio: "Über 35 Jahre Erfahrung in der Restaurierung von Gemälden und Fresken." },
-  { name: "Name Nachname", role: "Papier- & Grafikrestaurierung", bio: "Behandlung von Zeichnungen, Aquarellen und Druckgrafik auf Papier." },
+  { name: "Name Nachname", role: "Gründer & Restaurator", bio: "Über 35 Jahre Erfahrung in der Restaurierung von Kunstobjekten und Kunsthandwerk." },
+  { name: "Name Nachname", role: "Porzellan- & Keramikrestaurierung", bio: "Kleben, Ergänzen und Retuschieren von Porzellan, Fayence und Keramik." },
   { name: "Name Nachname", role: "Objekt- & Rahmenrestaurierung", bio: "Vergoldung, Holz und dekorative Oberflächen — konservatorisch betreut." },
   { name: "Name Nachname", role: "Atelierleitung & Logistik", bio: "Koordination, versicherter Transport und Betreuung unserer Kunden." },
 ];
@@ -27,15 +26,15 @@ export default function TeamPage() {
           <div className="rst-intro__text">
             <p>
               Hinter jedem restaurierten Objekt steht ein kleines Team aus Fachrestauratorinnen und
-              -restauratoren, das seine Disziplin über viele Jahre im Handwerk gelernt hat. Wandmalerei,
-              Gemälde, Papier und Objekt werden bei uns von jeweils eigenen Spezialistinnen betreut —
+              -restauratoren, das seine Disziplin über viele Jahre im Handwerk gelernt hat. Porzellan
+              und Keramik, Holz und Vergoldung sowie Skulptur werden bei uns von jeweils eigenen Spezialistinnen betreut —
               niemand behandelt ein Material, in dem er oder sie nicht ausgebildet ist.
             </p>
             <p>
               Die Zusammenarbeit beginnt bei der ersten Begutachtung und endet erst mit der
               dokumentierten Rückgabe. Dazwischen tauschen sich die Kolleginnen und Kollegen eng aus —
-              gerade bei Objekten, die mehrere Gewerke berühren, etwa ein gerahmtes Gemälde mit
-              vergoldetem Rahmen.
+              gerade bei Objekten, die mehrere Gewerke berühren, etwa eine Porzellanuhr mit
+              vergoldetem Holzsockel.
             </p>
             <p>
               Ergänzt wird das Restauratoren-Team durch die Atelierleitung, die Logistik, Versicherung

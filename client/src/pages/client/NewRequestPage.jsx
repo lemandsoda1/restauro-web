@@ -59,7 +59,7 @@ export default function NewRequestPage() {
           {step === 0 && (
             <div className="rst-form-stack">
               <Input label="Titel / Bezeichnung" required value={title}
-                onChange={(e) => setTitle(e.target.value)} placeholder="z. B. Ölgemälde, 19. Jahrhundert" />
+                onChange={(e) => setTitle(e.target.value)} placeholder="z. B. Porzellanvase, 19. Jahrhundert" />
               <Select label="Art des Objekts" value={artType} onChange={(e) => setArtType(e.target.value)}
                 placeholder="Bitte auswählen…" options={ART_TYPES} />
               <Textarea label="Beschreibung / Zustand" rows={5} value={description}
