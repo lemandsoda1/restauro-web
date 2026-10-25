@@ -2,11 +2,12 @@ import { Router } from "express";
 import bcrypt from "bcryptjs";
 import { sql } from "../db.js";
 import { authenticate, signToken } from "../middleware/auth.js";
+import { verifyTurnstile } from "../middleware/turnstile.js";
 
 const router = Router();
 
 // POST /api/auth/register
-router.post("/register", async (req, res, next) => {
+router.post("/register", verifyTurnstile, async (req, res, next) => {
   try {
     const { email, password, name, phone } = req.body;
     if (!email || !password || !name) {

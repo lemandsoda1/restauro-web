@@ -39,12 +39,13 @@ export function AuthProvider({ children }) {
     return data.user;
   }, []);
 
-  const register = useCallback(async (email, password, name, phone) => {
+  const register = useCallback(async (email, password, name, phone, turnstileToken) => {
     const data = await api.post("/api/auth/register", {
       email,
       password,
       name,
       phone,
+      turnstileToken,
     });
     localStorage.setItem("restauro_token", data.token);
     localStorage.setItem("restauro_user", JSON.stringify(data.user));

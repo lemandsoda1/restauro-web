@@ -30,6 +30,25 @@ studio (review requests, step-by-step quoting, shipping/logistics, client archiv
    Verify with `https://<your-app>.vercel.app/api/health` → `{"ok":true}`, then log in
    at `/login` and open `/admin`.
 
+### Optional: Cloudflare Turnstile (Spamschutz)
+
+Registrierung und die Gast-Anfrage (`/api/auth/register`, `/api/requests/guest`) können durch
+ein unsichtbares Cloudflare-Turnstile-Widget geschützt werden. Ohne Schlüssel ist der Schutz
+aus und alles funktioniert wie bisher. Der Login ist bewusst ausgenommen: die native Mac-App
+meldet sich über `/api/auth/login` an und kann kein Browser-Widget lösen.
+
+1. Cloudflare Dashboard → *Turnstile* → *Add widget*; Hostnames eintragen
+   (`<your-app>.vercel.app`, später die eigene Domain, zum Testen `localhost`), Modus *Managed*.
+2. In Vercel → *Settings → Environment Variables* (Production + Preview):
+   - `VITE_TURNSTILE_SITE_KEY` = Site Key (öffentlich)
+   - `TURNSTILE_SECRET_KEY` = Secret Key (geheim)
+3. **Neu deployen** — der Site Key wird beim Build in den Client eingebettet.
+
+Lokal testen ohne Konto: Cloudflares Testschlüssel (`1x00000000000000000000AA` /
+`1x0000000000000000000000000000000AA`) bestehen immer, `2x0000000000000000000000000000000AA`
+als Secret scheitert immer. Code: `server/middleware/turnstile.js`,
+`client/src/components/Turnstile.jsx`.
+
 The database and uploaded photos persist in Vercel Postgres/Blob (not on the
 function filesystem), so everything survives across deployments and cold starts.
 

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { Button, Input, Eyebrow } from "../ds";
+import { useTurnstile, CAPTCHA_PENDING } from "../components/Turnstile";
 
 export default function RegisterPage() {
   const { register } = useAuth();
@@ -9,18 +10,21 @@ export default function RegisterPage() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const captcha = useTurnstile();
 
   const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    if (captcha.enabled && !captcha.getToken()) return setError(CAPTCHA_PENDING);
     setLoading(true);
     try {
-      await register(form.email, form.password, form.name, form.phone);
+      await register(form.email, form.password, form.name, form.phone, captcha.getToken());
       navigate("/dashboard");
     } catch (err) {
       setError(err.message);
+      captcha.reset();
     } finally {
       setLoading(false);
     }
@@ -55,6 +59,7 @@ export default function RegisterPage() {
             <Input label="Telefon" hint="Optional" type="tel" value={form.phone} onChange={set("phone")} placeholder="+49 123 456789" />
             <Input label="Passwort" type="password" required minLength={6} value={form.password}
               onChange={set("password")} placeholder="Mindestens 6 Zeichen" />
+            {captcha.widget}
             <Button type="submit" block size="lg" disabled={loading}>
               {loading ? "Wird erstellt…" : "Konto erstellen"}
             </Button>

@@ -2,6 +2,7 @@ import { Router } from "express";
 import bcrypt from "bcryptjs";
 import { sql } from "../db.js";
 import { authenticate, signToken } from "../middleware/auth.js";
+import { verifyTurnstile } from "../middleware/turnstile.js";
 
 const router = Router();
 
@@ -36,7 +37,7 @@ router.post("/", authenticate, async (req, res, next) => {
 });
 
 // POST /api/requests/guest — PUBLIC: create (or reuse) an account and a request in one step
-router.post("/guest", async (req, res, next) => {
+router.post("/guest", verifyTurnstile, async (req, res, next) => {
   try {
     const { title, description, art_type, name, email, password, phone, images } = req.body;
     if (!title) return res.status(400).json({ error: "Titel ist erforderlich." });

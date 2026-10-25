@@ -6,6 +6,7 @@ import ImageUploader from "../components/ImageUploader";
 import { Button, Card, Input, Textarea, Select, Eyebrow, Stepper, Icon } from "../ds";
 import { ART_TYPES } from "../lib/artTypes";
 import { uploadImages } from "../lib/upload";
+import { useTurnstile, CAPTCHA_PENDING } from "../components/Turnstile";
 
 const STEPS = ["Details", "Fotos", "Konto & Kontakt"];
 
@@ -22,6 +23,7 @@ export default function PublicRequestPage() {
   const [error, setError] = useState("");
   const [emailTaken, setEmailTaken] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const captcha = useTurnstile();
 
   const setField = (key) => (e) => setAcct((a) => ({ ...a, [key]: e.target.value }));
 
@@ -39,6 +41,7 @@ export default function PublicRequestPage() {
       return setError("Bitte füllen Sie Name, E-Mail und Passwort aus.");
     }
     if (acct.password.length < 6) return setError("Das Passwort muss mindestens 6 Zeichen lang sein.");
+    if (captcha.enabled && !captcha.getToken()) return setError(CAPTCHA_PENDING);
 
     setSubmitting(true);
     try {
@@ -52,12 +55,15 @@ export default function PublicRequestPage() {
         phone: acct.phone.trim(),
         password: acct.password,
         images,
+        // erst nach dem Upload lesen: das Widget erneuert abgelaufene Tokens selbst
+        turnstileToken: captcha.getToken(),
       });
       setSession(data.user, data.token);
       navigate(`/requests/${data.id}`);
     } catch (err) {
       setError(err.message || "Das Absenden ist fehlgeschlagen.");
       if (/registriert/i.test(err.message || "")) setEmailTaken(true);
+      captcha.reset();
       setSubmitting(false);
     }
   };
@@ -98,7 +104,7 @@ export default function PublicRequestPage() {
           {step === 0 && (
             <div className="rst-form-stack">
               <Input label="Titel / Bezeichnung" required value={title}
-                onChange={(e) => setTitle(e.target.value)} placeholder="z. B. Ölgemälde, 19. Jahrhundert" />
+                onChange={(e) => setTitle(e.target.value)} placeholder="z. B. Porzellanvase, 19. Jahrhundert" />
               <Select label="Art des Objekts" value={artType} onChange={(e) => setArtType(e.target.value)}
                 placeholder="Bitte auswählen…" options={ART_TYPES} />
               <Textarea label="Beschreibung / Zustand" rows={5} value={description}
@@ -129,6 +135,7 @@ export default function PublicRequestPage() {
               <Input label="Telefon" hint="Optional" type="tel" value={acct.phone} onChange={setField("phone")} placeholder="+49 123 456789" />
               <Input label="Passwort wählen" type="password" required minLength={6} value={acct.password}
                 onChange={setField("password")} placeholder="Mindestens 6 Zeichen" />
+              {captcha.widget}
             </div>
           )}
 
